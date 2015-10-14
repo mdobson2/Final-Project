@@ -11,6 +11,8 @@ using System.Collections.Generic;
 public class ScriptEngine : MonoBehaviour
 {
 
+    public List<ScriptFacings> facings;
+    public List<ScriptEffects> effects;
     public List<ScriptMovements> movements;
     //public ScriptMovements[] movements;
     //public GameObject[] waypoints;
@@ -19,6 +21,10 @@ public class ScriptEngine : MonoBehaviour
     public float rotationSpeed = 15.0f;
     public Transform EndMarker;
     private float journeyLength;
+
+    public int movementFocus = 0;
+    public int effectsFocus = 0;
+    public int facingFocus = 0;
 
     public const float MAX_SPEED = 50;
     const float CLOSE_ENOUGH = 3;
@@ -149,38 +155,54 @@ public class ScriptEngine : MonoBehaviour
     void OnDrawGizmos()
     {
         Vector3 lineStarting = transform.position;
-        foreach (ScriptMovements move in movements)
+        for (int i = 0; i < movements.Count; i++ )
         {
-            switch (move.moveType)
+            if (movements[i].moveType == MovementTypes.BEZIER)
+            {
+                Gizmos.color = Color.cyan;
+            }
+            if (movements[i].moveType == MovementTypes.STRAIGHT)
+            {
+                Gizmos.color = Color.green;
+            }
+            if (i == movementFocus - 1 || i == movementFocus + 1)
+            {
+                Gizmos.color = Color.yellow;
+            }
+            if (i == movementFocus)
+            {
+                Gizmos.color = Color.magenta;
+            }
+            switch (movements[i].moveType)
             {
                 case MovementTypes.STRAIGHT:
-                    if (move.endWaypoint != null)
+                    if (movements[i].endWaypoint != null)
                     {
-                        Gizmos.color = Color.blue;
-                        Gizmos.DrawLine(lineStarting, move.endWaypoint.transform.position);
-                        lineStarting = move.endWaypoint.transform.position;
+                        //Gizmos.color = Color.blue;
+                        Gizmos.DrawLine(lineStarting, movements[i].endWaypoint.transform.position);
+                        lineStarting = movements[i].endWaypoint.transform.position;
                     }
                     else
                     {
-                        Debug.Log("Missing Element in " + move.moveType + " waypoint");
+                        Debug.Log("Missing Element in " + movements[i].moveType + " waypoint");
                     }
                     break;
                 case MovementTypes.BEZIER:
-                    if (move.endWaypoint != null && move.curveWaypoint != null)
+                    if (movements[i].endWaypoint != null && movements[i].curveWaypoint != null)
                     {
-                        Gizmos.color = Color.green;
+                        //Gizmos.color = Color.green;
                         Vector3 bezierStart = lineStarting;
                         //@reference Tiffany Fisher
-                        for (int i = 1; i <= 10; i++)
+                        for (int k = 1; k <= 10; k++)
                         {
-                            Vector3 lineEnd = GetPoint(bezierStart, move.endWaypoint.transform.position, move.curveWaypoint.transform.position, i / 10f);
+                            Vector3 lineEnd = GetPoint(bezierStart, movements[k].endWaypoint.transform.position, movements[k].curveWaypoint.transform.position, k / 10f);
                             Gizmos.DrawLine(lineStarting, lineEnd);
                             lineStarting = lineEnd;
                         }
                     }
                     else
                     {
-                        Debug.Log("Missing Element in " + move.moveType + " waypoint");
+                        Debug.Log("Missing Element in " + movements[i].moveType + " waypoint");
 
                     }
                     break;

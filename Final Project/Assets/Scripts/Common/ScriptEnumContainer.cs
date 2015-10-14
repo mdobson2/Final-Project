@@ -3,6 +3,23 @@ using System.Collections;
 
 public enum MovementTypes
 {
-    BEZIER,
-    STRAIGHT
+    WAIT,
+    STRAIGHT,
+    BEZIER
 };
+
+public enum FacingTypes
+{
+    LOOKAT,
+    LOOKCHAIN,
+    WAIT,
+    FREELOOK
+}
+
+public enum EffectTypes
+{
+    SHAKE,
+    SPLATTER,
+    FADE,
+    WAIT
+}

@@ -1,14 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * @author Mike Dobson
+ * */
+
 [System.Serializable]
-public class ScriptMovements {
+public class ScriptMovements
+{
 
-    public GameObject endWaypoint;
+    [Tooltip("The amount of time that the player will take to complete this waypoint")]
+    public float movementTime;
 
-    public GameObject curveWaypoint;
-
+    [Tooltip("The type of movement that this waypoint will use")]
     public MovementTypes moveType;
 
-    public bool showInEditor;
+    [Tooltip("The target for this movement")]
+    public GameObject endWaypoint;
+
+    [Tooltip("The curve for the bezier curve")]
+    public GameObject curveWaypoint;
+
+    [Tooltip("Determine if the window is folded out")]
+    public bool showInEditor = true;
+
+    [Tooltip("A specific name for this waypoint")]
+    public string name = "";
 }
