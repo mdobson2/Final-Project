@@ -22,17 +22,20 @@ public class ScriptEngine : MonoBehaviour
     public Transform EndMarker;
     private float journeyLength;
 
+    public Vector3 startPos;
+
     public int movementFocus = 0;
     public int effectsFocus = 0;
     public int facingFocus = 0;
 
     public const float MAX_SPEED = 50;
-    const float CLOSE_ENOUGH = 3;
+    const float CLOSE_ENOUGH = 1;
 
 
     void Start()
     {
         StartCoroutine("movementEngine");
+        startPos = transform.position;
     }
 
     void Update()
@@ -114,25 +117,26 @@ public class ScriptEngine : MonoBehaviour
             startPos = lineEnd;
         }
 
-        float startTime = Time.time;
-        //float endTime = startTime + speed;
-
-        float elapsedTime = 0f;
+        float acceleration = speed * Time.deltaTime;
+        Vector3 lastPos = transform.position;
+        //float startTime = Time.time;
+        //float elapsedTime = 0f;
 
         while (distRemaining > CLOSE_ENOUGH)
-        //while(Time.time < startTime + speed)
         {
-            //float curveTime = curveLength / speed;
-            elapsedTime += Time.deltaTime;
-            //float curTime = elapsedTime / curveTime; // *elapsedTime;
-            float curTime = elapsedTime / speed;
+            //elapsedTime += Time.deltaTime;
+            //float curTime = elapsedTime / speed;
+
+            lastPos = transform.position;
 
             distRemaining = Vector3.Distance(transform.position, target);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
             //transform.position = GetPoint(startCurve, target, curve, curTime);
-            Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, curTime), Color.red, 10f);
-            transform.position += GetPoint(startCurve, target, curve, curTime);
+            //Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, curTime), Color.red, 10f);
+            Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, acceleration), Color.red, 10f);
+            transform.position += GetPoint(startCurve, target, curve, acceleration) - lastPos;
+            acceleration = speed * Time.deltaTime;
             yield return null;
         }
     }
@@ -149,12 +153,12 @@ public class ScriptEngine : MonoBehaviour
     {
         t = Mathf.Clamp01(t);
         float oneMinusT = 1f - t;
-        return (oneMinusT * oneMinusT * start + 2f * oneMinusT * t * curve + t * t * end) - start;
+        return (oneMinusT * oneMinusT * start + 2f * oneMinusT * t * curve + t * t * end);
     }
 
     void OnDrawGizmos()
     {
-        Vector3 lineStarting = transform.position;
+        Vector3 lineStarting = startPos;
         for (int i = 0; i < movements.Count; i++ )
         {
             if (movements[i].moveType == MovementTypes.BEZIER)
@@ -195,7 +199,7 @@ public class ScriptEngine : MonoBehaviour
                         //@reference Tiffany Fisher
                         for (int k = 1; k <= 10; k++)
                         {
-                            Vector3 lineEnd = GetPoint(bezierStart, movements[k].endWaypoint.transform.position, movements[k].curveWaypoint.transform.position, k / 10f);
+                            Vector3 lineEnd = GetPoint(bezierStart, movements[i].endWaypoint.transform.position, movements[i].curveWaypoint.transform.position, k / 10f);
                             Gizmos.DrawLine(lineStarting, lineEnd);
                             lineStarting = lineEnd;
                         }
