@@ -28,14 +28,19 @@ public class ScriptEngine : MonoBehaviour
     public int effectsFocus = 0;
     public int facingFocus = 0;
 
-    public const float MAX_SPEED = 50;
+    public const float MAX_SPEED = 150;
     const float CLOSE_ENOUGH = 1;
+
+    GameObject particalSystem1;
+    GameObject particalSystem2;
 
 
     void Start()
     {
         StartCoroutine("movementEngine");
         startPos = transform.position;
+        //particalSystem1 = GameObject.Find("ParticalSystem1");
+        //particalSystem2 = GameObject.Find("ParticalSystem2");
     }
 
     void Update()
@@ -54,6 +59,8 @@ public class ScriptEngine : MonoBehaviour
                 speed -= 5f;
             }
         }
+        //particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .1f;
+        //particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .1f;
     }
 
     IEnumerator movementEngine()
@@ -101,12 +108,14 @@ public class ScriptEngine : MonoBehaviour
         Debug.Log("Finished while loop");
     }
 
+    #region Bezier Movement
     //@referene Tiffany Fisher
     IEnumerator BezierMovement(Vector3 target, Vector3 curve)
     {
         Vector3 startCurve = transform.position;
         float distRemaining = Vector3.Distance(transform.position, target);
-        Quaternion facing = Quaternion.LookRotation(target - transform.position);
+        //Quaternion facing = Quaternion.LookRotation(target - transform.position);
+
 
         Vector3 startPos = transform.position;
         float curveLength = 0;
@@ -117,10 +126,12 @@ public class ScriptEngine : MonoBehaviour
             startPos = lineEnd;
         }
 
-        float acceleration = speed * Time.deltaTime;
+        float acceleration = Time.deltaTime * (speed / MAX_SPEED);
+        Debug.Log(acceleration);
         Vector3 lastPos = transform.position;
-        //float startTime = Time.time;
-        //float elapsedTime = 0f;
+        Vector3 lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .01f) - lastPos;
+
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, lookAtTarget, rotationSpeed, 0.0f);
 
         while (distRemaining > CLOSE_ENOUGH)
         {
@@ -131,13 +142,14 @@ public class ScriptEngine : MonoBehaviour
 
             distRemaining = Vector3.Distance(transform.position, target);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
-            //transform.rotation = Quaternion.LookRotation(GetPoint(startCurve, target, curve, acceleration + .01f));
-            //transform.position = GetPoint(startCurve, target, curve, curTime);
-            //Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, curTime), Color.red, 10f);
+            transform.rotation = Quaternion.LookRotation(newDir);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
             Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, acceleration), Color.red, 10f);
             transform.position += GetPoint(startCurve, target, curve, acceleration) - lastPos;
-            acceleration = speed * Time.deltaTime;
+            acceleration += Time.deltaTime * (speed / MAX_SPEED);
+            lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .01f) - lastPos;
+            newDir = Vector3.RotateTowards(transform.forward, lookAtTarget, rotationSpeed, 0.0f);
+            //Debug.Log(acceleration);
             yield return null;
         }
     }
@@ -156,6 +168,8 @@ public class ScriptEngine : MonoBehaviour
         float oneMinusT = 1f - t;
         return (oneMinusT * oneMinusT * start + 2f * oneMinusT * t * curve + t * t * end);
     }
+    #endregion
+
 
     void OnDrawGizmos()
     {
