@@ -132,6 +132,7 @@ public class ScriptEngine : MonoBehaviour
             distRemaining = Vector3.Distance(transform.position, target);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
+            //transform.rotation = Quaternion.LookRotation(GetPoint(startCurve, target, curve, acceleration + .01f));
             //transform.position = GetPoint(startCurve, target, curve, curTime);
             //Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, curTime), Color.red, 10f);
             Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, acceleration), Color.red, 10f);
