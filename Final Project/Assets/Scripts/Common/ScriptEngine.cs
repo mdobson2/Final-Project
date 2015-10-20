@@ -127,7 +127,7 @@ public class ScriptEngine : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
             //transform.rotation = Quaternion.Lerp(tempFacing, facing, rotationSpeed * Time.deltaTime);
             distRemaining = Vector3.Distance(transform.position, EndMarker.position);
-            transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * speed);
             yield return null;
         }
         Debug.Log("Finished while loop");
@@ -150,7 +150,7 @@ public class ScriptEngine : MonoBehaviour
             curveLength += Vector3.Distance(startPos, lineEnd);
             startPos = lineEnd;
         }
-
+        float curveTime = curveLength / MAX_SPEED;
         float acceleration = Time.deltaTime * (speed / MAX_SPEED);
         Debug.Log(acceleration);
         Vector3 lastPos = transform.position;
@@ -162,17 +162,16 @@ public class ScriptEngine : MonoBehaviour
         {
             //elapsedTime += Time.deltaTime;
             //float curTime = elapsedTime / speed;
-
             lastPos = transform.position;
-
             distRemaining = Vector3.Distance(transform.position, target);
 
             transform.rotation = Quaternion.LookRotation(newDir);
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
-            Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, acceleration), Color.red, 10f);
-            transform.position += GetPoint(startCurve, target, curve, curveLength * acceleration) - lastPos;
+            //Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, curveTime * acceleration), Color.red, 10f);
+            //transform.position += GetPoint(startCurve, target, curve, curveTime * acceleration) - lastPos;
+            transform.position += GetPoint(startCurve, target, curve, acceleration) - lastPos;
             acceleration += Time.deltaTime * (speed / MAX_SPEED);
-            lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .01f) - lastPos;
+            lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .001f) - lastPos;
             newDir = Vector3.RotateTowards(transform.forward, lookAtTarget, rotationSpeed, 0.0f);
             //Debug.Log(acceleration);
             yield return null;
