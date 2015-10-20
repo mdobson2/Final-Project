@@ -29,7 +29,7 @@ public class ScriptEngine : MonoBehaviour
     public int effectsFocus = 0;
     public int facingFocus = 0;
 
-    public const float MAX_SPEED = 150;
+    public float MAX_SPEED = 150;
     const float CLOSE_ENOUGH = 1;
 
     GameObject particalSystem1;

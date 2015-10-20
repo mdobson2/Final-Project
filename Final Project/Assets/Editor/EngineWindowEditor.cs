@@ -39,12 +39,16 @@ public class EngineWindowEditor : EditorWindow {
     float displayRight = 30;
     float highDisplay = 0;
     int scrollerValue = 0;
+    GameObject startPoint = null;
 
     void OnFocus()
     {
 		miniRight = new GUIStyle(EditorStyles.miniButtonRight);
 		miniLeft = new GUIStyle(EditorStyles.miniButtonLeft);
 		miniMid = new GUIStyle(EditorStyles.miniButtonMid);
+
+
+        startPoint = GameObject.Find("Start");
 
         engine = GameObject.FindWithTag("Player").GetComponent<ScriptEngine>();
         movements = engine.movements;
@@ -112,7 +116,17 @@ public class EngineWindowEditor : EditorWindow {
         MovementGUI();
         EffectGUI();
         FacingGUI();
-        TimeLineGUI();
+
+        if (startPoint != null)
+        {
+            TimeLineGUI();
+        }
+        else
+        {
+            Debug.LogWarning("Timeline requires Start object in scene");
+        }
+
+        //TimeLineGUI();
         #region added to help browsing
 
 
@@ -1503,7 +1517,7 @@ public class EngineWindowEditor : EditorWindow {
                 }
             }
             
-            else if(movementDraw - movements[i].movementTime <= displayRight)
+            else if(movementDraw - movements[i].movementTime < displayRight)
             {
                 //right button
                 tempStyle = miniRight;
