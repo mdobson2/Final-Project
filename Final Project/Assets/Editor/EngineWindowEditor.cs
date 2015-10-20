@@ -10,18 +10,16 @@ using System.Linq;
 
 public class EngineWindowEditor : EditorWindow {
 
-
-
-    List<ScriptMovements> movements;
+	List<ScriptMovements> movements;
     List<ScriptEffects> effects;
     List<ScriptFacings> facings;
     ScriptEngine engine;
 
     //local Variables
     //button styles
-    GUIStyle miniRight = new GUIStyle(EditorStyles.miniButtonRight);
-    GUIStyle miniLeft = new GUIStyle(EditorStyles.miniButtonLeft);
-    GUIStyle miniMid = new GUIStyle(EditorStyles.miniButtonMid);
+	GUIStyle miniRight;
+	GUIStyle miniLeft;
+	GUIStyle miniMid;
     
     //window focus
     int movementFocus = 0;
@@ -44,6 +42,10 @@ public class EngineWindowEditor : EditorWindow {
 
     void OnFocus()
     {
+		miniRight = new GUIStyle(EditorStyles.miniButtonRight);
+		miniLeft = new GUIStyle(EditorStyles.miniButtonLeft);
+		miniMid = new GUIStyle(EditorStyles.miniButtonMid);
+
         engine = GameObject.FindWithTag("Player").GetComponent<ScriptEngine>();
         movements = engine.movements;
         effects = engine.effects;
@@ -51,6 +53,19 @@ public class EngineWindowEditor : EditorWindow {
         movementFocus = engine.movementFocus;
         effectFocus = engine.effectsFocus;
         facingFocus = engine.facingFocus;
+
+		if(effects == null)
+		{
+			effects = new List<ScriptEffects>();
+		}
+		if(facings == null)
+		{
+			facings = new List<ScriptFacings>();
+		}
+		if(movements == null)
+		{
+			movements = new List<ScriptMovements>();
+		}
 
         if (effects.Count <= 0)
         {
@@ -691,6 +706,7 @@ public class EngineWindowEditor : EditorWindow {
         windowDisplay = new Rect(offsetX, offsetY, ELEMENT_DISPLAY, DISPLAY_HEIGHT);
         offsetX += 110f;
         EditorGUI.LabelField(windowDisplay, "Movement " + (movementFocus + 1));
+
         //movement name
         windowDisplay = new Rect(offsetX, offsetY, 100f, DISPLAY_HEIGHT);
         offsetX = 15f;
@@ -781,6 +797,7 @@ public class EngineWindowEditor : EditorWindow {
         offsetX += 40f;
         windowDisplay = new Rect(offsetX, offsetY, 40f, DISPLAY_HEIGHT);
         offsetX += 40f;
+
 
 
         if (GUI.Button(windowDisplay, "Prev", miniLeft))

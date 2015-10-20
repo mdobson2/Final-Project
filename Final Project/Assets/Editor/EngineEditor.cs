@@ -14,23 +14,24 @@ public class EngineEditor :  Editor
 
 	void Awake()
 	{
-		//engineScript = (ScriptEngine)engineScript;
+		engineScript = (ScriptEngine)target;
 	}
 
 	public override void OnInspectorGUI()
 	{
 //		//required things for arrays
-//		serializedObject.Update ();
+		//serializedObject.Update ();
 //
 //		//-------------------------------
 //		//Place your custom editor stuffs
 //		//serializedObject.waypoints
-//		SerializedProperty movementsArray = serializedObject.FindProperty ("movements");
-//		SerializedProperty effectsArray = serializedObject.FindProperty ("effects");
-//		SerializedProperty facingsArray = serializedObject.FindProperty ("facings");
+		//SerializedProperty movementsArray = serializedObject.FindProperty ("movements");
+		//SerializedProperty effectsArray = serializedObject.FindProperty ("effects");
+		//SerializedProperty facingsArray = serializedObject.FindProperty ("facings");
 
         //added by gipson to figure things out
 	    // DrawDefaultInspector();
+		//EditorGUILayout.PropertyField(serializedObject.FindProperty("infiniteLoopCatcher"));
 
         if(GUILayout.Button("Editor"))
         {
@@ -38,14 +39,21 @@ public class EngineEditor :  Editor
             window.Show();
         }
 
+		//PrintInformation ();
+
+		#region bye bye
+		//EditorGUILayout.Space ();
+
+
         //EditorGUILayout.PropertyField(movementsArray);
         //if (movementsArray.isExpanded)
         //{
-        //    //EditorGUILayout.PropertyField(waypointsArray.arraySize)
-        //    EditorGUILayout.PropertyField(movementsArray.FindPropertyRelative("Array.size"));
-        //    EditorGUI.indentLevel++;
-        //    for (int i = 0; i < movementsArray.arraySize; i++)
-        //    {
+			//EditorGUILayout.PropertyField(movementsArray.arraySize);
+            //EditorGUILayout.PropertyField(movementsArray.FindPropertyRelative("Array.size"));
+            //EditorGUI.indentLevel++;
+            //for (int i = 0; i < movementsArray.arraySize; i++)
+            //{
+				//EditorGUILayout.PropertyField(movementsArray.GetArrayElementAtIndex(0));
         //        SerializedProperty showInEditor = movementsArray.GetArrayElementAtIndex(i).FindPropertyRelative("showInEditor");
 
         //        //showInEditor.boolValue = EditorGUILayout.Foldout(showInEditor.boolValue, "Movement " + ( i + 1 ));
@@ -55,8 +63,8 @@ public class EngineEditor :  Editor
         //            //EditorGUILayout.LabelField("Movement " + (i + 1));
         //            EditorGUILayout.PropertyField(movementsArray.GetArrayElementAtIndex(i));
         //        //}
-        //    }
-        //    EditorGUI.indentLevel--;
+            //}
+            //EditorGUI.indentLevel--;
         //}
 
         //EditorGUILayout.PropertyField(effectsArray);
@@ -107,5 +115,19 @@ public class EngineEditor :  Editor
 
         //required things for arrays
         //serializedObject.ApplyModifiedProperties();
+		#endregion
+	}
+
+	void PrintInformation()
+	{
+		Debug.Log ("Printing Movement Engine Information!");
+		Debug.Log ("Movement Length: " + engineScript.movements.Count);
+		
+		foreach(ScriptMovements moveScript in engineScript.movements)
+		{
+			Debug.Log ("\tMovement printing...");
+			Debug.Log ("\t" + moveScript.moveType.ToString() + ".");
+			Debug.Log ("\tEnd Point Name: " + moveScript.endWaypoint.gameObject.name + ".");
+		}
 	}
 }
