@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 public class ScriptEngine : MonoBehaviour
 {
-	public int infiniteLoopCatcher = 100;
+	public int infiniteLoopCatcher = 500;
 
     public List<ScriptFacings> facings;
     public List<ScriptEffects> effects;
@@ -41,8 +41,8 @@ public class ScriptEngine : MonoBehaviour
 		PrintInformation ();
         StartCoroutine("movementEngine");
         startPos = transform.position;
-        //particalSystem1 = GameObject.Find("ParticalSystem1");
-        //particalSystem2 = GameObject.Find("ParticalSystem2");
+        particalSystem1 = GameObject.Find("ParticalSystem1");
+        particalSystem2 = GameObject.Find("ParticalSystem2");
 
     }
 
@@ -75,8 +75,8 @@ public class ScriptEngine : MonoBehaviour
                 speed -= 5f;
             }
         }
-        //particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .1f;
-        //particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .1f;
+        particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
+        particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
     }
 
     IEnumerator movementEngine()
@@ -104,11 +104,11 @@ public class ScriptEngine : MonoBehaviour
                 i = -1;
             }
 
-			if(numHits > infiniteLoopCatcher)
-			{
-				i=movements.Count;	
-				Debug.Log ("Infinite loop!");
-			}
+            //if(numHits > infiniteLoopCatcher)
+            //{
+            //    i=movements.Count;	
+            //    Debug.Log ("Infinite loop!");
+            //}
 
 			numHits++;
         }
@@ -170,7 +170,7 @@ public class ScriptEngine : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(newDir);
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
             Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, acceleration), Color.red, 10f);
-            transform.position += GetPoint(startCurve, target, curve, acceleration) - lastPos;
+            transform.position += GetPoint(startCurve, target, curve, curveLength * acceleration) - lastPos;
             acceleration += Time.deltaTime * (speed / MAX_SPEED);
             lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .01f) - lastPos;
             newDir = Vector3.RotateTowards(transform.forward, lookAtTarget, rotationSpeed, 0.0f);
