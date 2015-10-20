@@ -1,1 +1,0 @@
-Static Assets are all remaining assets that are/nnot loaded into the game at runtime.

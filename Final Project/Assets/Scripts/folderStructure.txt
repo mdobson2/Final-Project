@@ -1,3 +1,0 @@
-This is a folder for all other scripts.
-It should be separated by common scripts found across multiple objects,
-and then scripts by level or by type.
