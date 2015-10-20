@@ -1,0 +1,1 @@
+Dynamic assets are assets that are placed into the game during runtime./nIf you have an asset that is both dynamic and static,/nput it into the dynamic assets folder.
