@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 public class ScriptEngine : MonoBehaviour
 {
+	public int infiniteLoopCatcher = 500;
 
     public List<ScriptFacings> facings;
     public List<ScriptEffects> effects;
@@ -28,7 +29,7 @@ public class ScriptEngine : MonoBehaviour
     public int effectsFocus = 0;
     public int facingFocus = 0;
 
-    public const float MAX_SPEED = 150;
+    public float MAX_SPEED = 150;
     const float CLOSE_ENOUGH = 1;
 
     GameObject particalSystem1;
@@ -37,11 +38,26 @@ public class ScriptEngine : MonoBehaviour
 
     void Start()
     {
+		PrintInformation ();
         StartCoroutine("movementEngine");
         startPos = transform.position;
-        //particalSystem1 = GameObject.Find("ParticalSystem1");
-        //particalSystem2 = GameObject.Find("ParticalSystem2");
+        particalSystem1 = GameObject.Find("ParticalSystem1");
+        particalSystem2 = GameObject.Find("ParticalSystem2");
+
     }
+
+	void PrintInformation()
+	{
+		Debug.Log ("Printing Movement Engine Information!");
+		Debug.Log ("Movement Length: " + movements.Count);
+
+		foreach(ScriptMovements moveScript in movements)
+		{
+			Debug.Log ("\tMovement printing...");
+			Debug.Log ("\t" + moveScript.moveType.ToString() + ".");
+			Debug.Log ("\tEnd Point Name: " + moveScript.endWaypoint.gameObject.name + ".");
+		}
+	}
 
     void Update()
     {
@@ -59,12 +75,13 @@ public class ScriptEngine : MonoBehaviour
                 speed -= 5f;
             }
         }
-        //particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .1f;
-        //particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .1f;
+        particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
+        particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
     }
 
     IEnumerator movementEngine()
     {
+		int numHits = 0;
         Debug.Log("Entering Engine");
         for (int i = 0; i < movements.Count; i++)
         //for (int i = 0; i < movements.Length; i++ )
@@ -86,6 +103,14 @@ public class ScriptEngine : MonoBehaviour
             {
                 i = -1;
             }
+
+            //if(numHits > infiniteLoopCatcher)
+            //{
+            //    i=movements.Count;	
+            //    Debug.Log ("Infinite loop!");
+            //}
+
+			numHits++;
         }
         yield return null;
     }
@@ -102,7 +127,7 @@ public class ScriptEngine : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
             //transform.rotation = Quaternion.Lerp(tempFacing, facing, rotationSpeed * Time.deltaTime);
             distRemaining = Vector3.Distance(transform.position, EndMarker.position);
-            transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * speed);
             yield return null;
         }
         Debug.Log("Finished while loop");
@@ -125,7 +150,7 @@ public class ScriptEngine : MonoBehaviour
             curveLength += Vector3.Distance(startPos, lineEnd);
             startPos = lineEnd;
         }
-
+        float curveTime = curveLength / MAX_SPEED;
         float acceleration = Time.deltaTime * (speed / MAX_SPEED);
         Debug.Log(acceleration);
         Vector3 lastPos = transform.position;
@@ -137,17 +162,16 @@ public class ScriptEngine : MonoBehaviour
         {
             //elapsedTime += Time.deltaTime;
             //float curTime = elapsedTime / speed;
-
             lastPos = transform.position;
-
             distRemaining = Vector3.Distance(transform.position, target);
 
             transform.rotation = Quaternion.LookRotation(newDir);
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
-            Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, acceleration), Color.red, 10f);
+            //Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, curveTime * acceleration), Color.red, 10f);
+            //transform.position += GetPoint(startCurve, target, curve, curveTime * acceleration) - lastPos;
             transform.position += GetPoint(startCurve, target, curve, acceleration) - lastPos;
             acceleration += Time.deltaTime * (speed / MAX_SPEED);
-            lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .01f) - lastPos;
+            lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .001f) - lastPos;
             newDir = Vector3.RotateTowards(transform.forward, lookAtTarget, rotationSpeed, 0.0f);
             //Debug.Log(acceleration);
             yield return null;
@@ -173,61 +197,50 @@ public class ScriptEngine : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Vector3 lineStarting = startPos;
-        for (int i = 0; i < movements.Count; i++ )
-        {
-            if (movements[i].moveType == MovementTypes.BEZIER)
-            {
-                Gizmos.color = Color.cyan;
-            }
-            if (movements[i].moveType == MovementTypes.STRAIGHT)
-            {
-                Gizmos.color = Color.green;
-            }
-            if (i == movementFocus - 1 || i == movementFocus + 1)
-            {
-                Gizmos.color = Color.yellow;
-            }
-            if (i == movementFocus)
-            {
-                Gizmos.color = Color.magenta;
-            }
-            switch (movements[i].moveType)
-            {
-                case MovementTypes.STRAIGHT:
-                    if (movements[i].endWaypoint != null)
-                    {
-                        //Gizmos.color = Color.blue;
-                        Gizmos.DrawLine(lineStarting, movements[i].endWaypoint.transform.position);
-                        lineStarting = movements[i].endWaypoint.transform.position;
-                    }
-                    else
-                    {
-                        Debug.Log("Missing Element in " + movements[i].moveType + " waypoint");
-                    }
-                    break;
-                case MovementTypes.BEZIER:
-                    if (movements[i].endWaypoint != null && movements[i].curveWaypoint != null)
-                    {
-                        //Gizmos.color = Color.green;
-                        Vector3 bezierStart = lineStarting;
-                        //@reference Tiffany Fisher
-                        for (int k = 1; k <= 10; k++)
-                        {
-                            Vector3 lineEnd = GetPoint(bezierStart, movements[i].endWaypoint.transform.position, movements[i].curveWaypoint.transform.position, k / 10f);
-                            Gizmos.DrawLine(lineStarting, lineEnd);
-                            lineStarting = lineEnd;
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Missing Element in " + movements[i].moveType + " waypoint");
+		Vector3 lineStarting = startPos;
+		if (movements != null) {
+			for (int i = 0; i < movements.Count; i++) {
+				if (movements [i].moveType == MovementTypes.BEZIER) {
+					Gizmos.color = Color.cyan;
+				}
+				if (movements [i].moveType == MovementTypes.STRAIGHT) {
+					Gizmos.color = Color.green;
+				}
+				if (i == movementFocus - 1 || i == movementFocus + 1) {
+					Gizmos.color = Color.yellow;
+				}
+				if (i == movementFocus) {
+					Gizmos.color = Color.magenta;
+				}
+				switch (movements [i].moveType) {
+				case MovementTypes.STRAIGHT:
+					if (movements [i].endWaypoint != null) {
+						//Gizmos.color = Color.blue;
+						Gizmos.DrawLine (lineStarting, movements [i].endWaypoint.transform.position);
+						lineStarting = movements [i].endWaypoint.transform.position;
+					} else {
+						Debug.Log ("Missing Element in " + movements [i].moveType + " waypoint");
+					}
+					break;
+				case MovementTypes.BEZIER:
+					if (movements [i].endWaypoint != null && movements [i].curveWaypoint != null) {
+						//Gizmos.color = Color.green;
+						Vector3 bezierStart = lineStarting;
+						//@reference Tiffany Fisher
+						for (int k = 1; k <= 10; k++) {
+							Vector3 lineEnd = GetPoint (bezierStart, movements [i].endWaypoint.transform.position, movements [i].curveWaypoint.transform.position, k / 10f);
+							Gizmos.DrawLine (lineStarting, lineEnd);
+							lineStarting = lineEnd;
+						}
+					} else {
+						Debug.Log ("Missing Element in " + movements [i].moveType + " waypoint");
 
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
 }

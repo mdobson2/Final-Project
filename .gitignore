@@ -42,7 +42,6 @@ dlldata.c
 *_p.c
 *_i.h
 *.ilk
-*.obj
 *.pch
 *.pdb
 *.pgc
@@ -193,21 +192,12 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
-
 Temp/
-
 Library/
-
 Obj/
-
 *.csproj
-
 *.unityproj
-
 *.sln
-
 *.user
-
 *.userprefs
-
 *.DS_store
