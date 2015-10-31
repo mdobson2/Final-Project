@@ -13,7 +13,9 @@ public class EngineWindowEditor : EditorWindow {
 	List<ScriptMovements> movements;
     List<ScriptEffects> effects;
     List<ScriptFacings> facings;
+    ScriptEngine[] engines;
     ScriptEngine engine;
+    int currentEngine;
 
     //local Variables
     //button styles
@@ -41,6 +43,19 @@ public class EngineWindowEditor : EditorWindow {
     int scrollerValue = 0;
     GameObject startPoint = null;
 
+    //override void Show(int EngineNumber)
+    //{
+    //    engines = GameObject.FindWithTag("Player").GetComponents<ScriptEngine>();
+    //    foreach(ScriptEngine temp in engines)
+    //    {
+    //        if(temp.trackNumber == EngineNumber)
+    //        {
+    //            currentEngine = EngineNumber;
+    //            engine = temp;
+    //        }
+    //    }
+    //}
+
     void OnFocus()
     {
 		miniRight = new GUIStyle(EditorStyles.miniButtonRight);
@@ -50,6 +65,7 @@ public class EngineWindowEditor : EditorWindow {
 
         startPoint = GameObject.Find("Start");
 
+        
         engine = GameObject.FindWithTag("Player").GetComponent<ScriptEngine>();
         movements = engine.movements;
         effects = engine.effects;

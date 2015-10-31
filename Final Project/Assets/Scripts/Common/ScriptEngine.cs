@@ -10,37 +10,57 @@ using System.Collections.Generic;
 
 public class ScriptEngine : MonoBehaviour
 {
-	public int infiniteLoopCatcher = 500;
-
+    #region Facing Variables
     public List<ScriptFacings> facings;
+    #endregion
+
+    #region Effects Variables
     public List<ScriptEffects> effects;
+    #endregion
+
+    #region Movement Variables
     public List<ScriptMovements> movements;
-    //public ScriptMovements[] movements;
-    //public GameObject[] waypoints;
     public int currentWaypoint = 0;
     public float speed = 0.0f;
     public float rotationSpeed = 15.0f;
     public Transform EndMarker;
     private float journeyLength;
-
     public Vector3 startPos;
+    #endregion
 
+    #region Editor Variables
     public int movementFocus = 0;
     public int effectsFocus = 0;
     public int facingFocus = 0;
+    #endregion
 
+    public int trackNumber;
     public float MAX_SPEED = 150;
     const float CLOSE_ENOUGH = 1;
+	public int infiniteLoopCatcher = 10000;
 
-    GameObject particalSystem1;
-    GameObject particalSystem2;
+    #region TigerShark Variables
+    public GameObject tigerShark;
+    public GameObject particalSystem1;
+    public GameObject particalSystem2;
+    #endregion
 
+    #region Scripts Access
+    public ScriptCameraShake cameraShakeScript;
+    public ScriptLookAtTarget lookAtScript;
+    public ScriptScreenFade fadeScript;
+    public ScriptSplatter splatterScript;
+    #endregion
 
     void Start()
     {
 		PrintInformation ();
-        StartCoroutine("movementEngine");
+        StartCoroutine(movementEngine());
+        StartCoroutine(EffectsEngine());
+        StartCoroutine(FacingEngine());
+
         startPos = transform.position;
+        tigerShark = GameObject.Find("SPACESHIP 1");
         particalSystem1 = GameObject.Find("ParticalSystem1");
         particalSystem2 = GameObject.Find("ParticalSystem2");
 
@@ -75,10 +95,20 @@ public class ScriptEngine : MonoBehaviour
                 speed -= 5f;
             }
         }
+        if (Input.GetKey(KeyCode.A))
+        {
+
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+
+        }
         particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
         particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
     }
 
+    #region Movement Engine
     IEnumerator movementEngine()
     {
 		int numHits = 0;
@@ -104,11 +134,11 @@ public class ScriptEngine : MonoBehaviour
                 i = -1;
             }
 
-            //if(numHits > infiniteLoopCatcher)
-            //{
-            //    i=movements.Count;	
-            //    Debug.Log ("Infinite loop!");
-            //}
+            if (numHits > infiniteLoopCatcher)
+            {
+                i = movements.Count;
+                Debug.Log("Infinite loop!");
+            }
 
 			numHits++;
         }
@@ -179,13 +209,6 @@ public class ScriptEngine : MonoBehaviour
     }
 
     //@reference Tiffany Fisher
-    //public Vector3 GetPoint(Vector3 start, Vector3 end, Vector3 curve, float t)
-    //{
-    //    t = Mathf.Clamp01(t);
-    //    float oneMinusT = 1f - t;
-    //    return oneMinusT * oneMinusT * start + 2f * oneMinusT * t * curve + t * t * end;
-    //}
-
     public Vector3 GetPoint(Vector3 start, Vector3 end, Vector3 curve, float t)
     {
         t = Mathf.Clamp01(t);
@@ -193,7 +216,105 @@ public class ScriptEngine : MonoBehaviour
         return (oneMinusT * oneMinusT * start + 2f * oneMinusT * t * curve + t * t * end);
     }
     #endregion
+    #endregion
 
+    #region Effects Engine
+    IEnumerator EffectsEngine()
+    {
+        foreach (ScriptEffects effect in effects)
+        {
+            switch (effect.effectType)
+            {
+                case EffectTypes.SPLATTER:
+                    if (effect.imageScale == 0)
+                    {
+                        splatterScript.Activate(effect.effectTime, effect.fadeInTime, effect.fadeOutTime);
+                    }
+                    else if (effect.imageScale != 0)
+                    {
+                        splatterScript.Activate(effect.effectTime, effect.fadeInTime, effect.fadeOutTime, effect.imageScale);
+                    }
+                    else
+                    {
+                        splatterScript.Activate();
+                    }
+                    yield return new WaitForSeconds(effect.effectTime);
+                    break;
+                case EffectTypes.SHAKE:
+                    if (effect.magnitude != 0)
+                    {
+                        cameraShakeScript.Activate(effect.effectTime, effect.magnitude);
+                    }
+                    else
+                    {
+                        cameraShakeScript.Activate();
+                    }
+                    yield return new WaitForSeconds(effect.effectTime);
+                    break;
+                case EffectTypes.FADE:
+                    fadeScript.Activate(effect.effectTime, effect.fadeInTime, effect.fadeOutTime);
+                    yield return new WaitForSeconds(effect.effectTime);
+                    break;
+                case EffectTypes.WAIT:
+                    yield return new WaitForSeconds(effect.effectTime);
+                    break;
+                default:
+                    break;
+
+            }
+        }
+    }
+    #endregion
+
+    #region Facing Engine
+    IEnumerator FacingEngine()
+    {
+        //ScriptLookAtTarget lookScript = Camera.main.GetComponent<ScriptLookAtTarget>();
+        foreach (ScriptFacings facing in facings)
+        {
+            //Debug.Log(facing);
+            switch (facing.facingType)
+            {
+                case FacingTypes.LOOKAT:
+
+                    //Do the facing action
+                    lookAtScript.Activate(facing.rotationSpeed, facing.targets, facing.lockTimes);
+                    //Wait for the specified amount of time on the facing waypoint
+                    yield return new WaitForSeconds(facing.rotationSpeed[0] + facing.rotationSpeed[1] + facing.lockTimes[0]);
+
+                    break;
+                case FacingTypes.WAIT:
+
+                    //Waits for the specified amount of time
+                    yield return new WaitForSeconds(facing.facingTime);
+
+                    break;
+                case FacingTypes.LOOKCHAIN:
+
+                    //Do the facing action
+                    lookAtScript.Activate(facing.rotationSpeed, facing.targets, facing.lockTimes);
+                    //Wait for the specified amount of time on the facing waypoint
+                    float waitTime = 0;
+                    for (int i = 0; i < facing.targets.Length; i++)
+                    {
+                        waitTime += facing.rotationSpeed[i];
+                        waitTime += facing.lockTimes[i];
+                    }
+                    waitTime += facing.rotationSpeed[facing.rotationSpeed.Length - 1];
+                    yield return new WaitForSeconds(waitTime);
+
+                    break;
+                case FacingTypes.FREELOOK:
+                    lookAtScript.StartCoroutine("FreeLook", facing.facingTime);
+                    yield return new WaitForSeconds(facing.facingTime);
+                    break;
+                default:
+                    ScriptErrorLogging.logError("Invalid movement type!");
+                    break;
+            }
+        }
+    }
+    #endregion
 
     void OnDrawGizmos()
     {

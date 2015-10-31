@@ -1,0 +1,33 @@
+# Blender MTL File: 'siar1x.blend'
+# Material Count: 3
+
+newmtl canopy
+Ns 194.117647
+Ka 0.000000 0.000000 0.000000
+Kd 0.000000 0.194674 0.300000
+Ks 0.281866 0.645732 0.800000
+Ni 1.000000
+d 0.920000
+illum 2
+map_Kd col2.png
+
+newmtl chrome
+Ns 194.117647
+Ka 0.000000 0.000000 0.000000
+Kd 0.232134 0.275063 0.342383
+Ks 1.000000 1.000000 1.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd col2.png
+map_Ks col.png
+refl col.png
+
+newmtl chrome_blk
+Ns 194.117647
+Ka 0.000000 0.000000 0.000000
+Kd 0.232134 0.275063 0.342383
+Ks 1.000000 1.000000 1.000000
+Ni 1.000000
+d 1.000000
+illum 2
