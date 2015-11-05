@@ -17,6 +17,9 @@ public class EngineWindowEditor : EditorWindow {
     ScriptEngine engine;
     int currentEngine;
 
+	//TIFF ADDED
+	public int playerNum = 0;
+
     //local Variables
     //button styles
 	GUIStyle miniRight;
@@ -65,8 +68,13 @@ public class EngineWindowEditor : EditorWindow {
 
         startPoint = GameObject.Find("Start");
 
-        
-        engine = GameObject.FindWithTag("Player").GetComponent<ScriptEngine>();
+		Debug.Log (playerNum);
+
+		if (playerNum == 1)
+			engine = GameObject.FindWithTag ("Player").GetComponent<Player1>();
+		else
+			engine = GameObject.FindWithTag("Player").GetComponent<Player2>();
+
         movements = engine.movements;
         effects = engine.effects;
         facings = engine.facings;

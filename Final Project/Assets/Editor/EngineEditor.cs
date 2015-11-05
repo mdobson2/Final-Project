@@ -31,10 +31,13 @@ public class EngineEditor :  Editor
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("trackNumber"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("infiniteLoopCatcher"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty ("playerNumber"));
 
         if(GUILayout.Button("Editor"))
         {
             EngineWindowEditor window = (EngineWindowEditor)EditorWindow.GetWindow(typeof(EngineWindowEditor));
+			//TIFFANY ADDED
+			window.playerNum = serializedObject.FindProperty ("playerNumber").intValue;
             window.Show();
         }
 
