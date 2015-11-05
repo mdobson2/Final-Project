@@ -10,9 +10,6 @@ using System.Collections.Generic;
 
 public class ScriptEngine : MonoBehaviour
 {
-	#region tiff
-
-	#endregion
 
     #region Facing Variables
     public List<ScriptFacings> facings;
@@ -38,7 +35,7 @@ public class ScriptEngine : MonoBehaviour
     public int facingFocus = 0;
     #endregion
 
-    public int trackNumber;
+    //public int trackNumber;
     public float MAX_SPEED = 150;
     const float CLOSE_ENOUGH = 1;
 	public int infiniteLoopCatcher = 10000;

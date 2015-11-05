@@ -6,8 +6,7 @@ using UnityEditor;
  * @author Mike Dobson
  * */
 
-[CustomEditor(typeof(Player1))]
-public class Player1Editor :  EngineEditor
-{
+[CustomEditor(typeof(Track1))]
+public class Track1Editor : EngineEditor {
 
 }

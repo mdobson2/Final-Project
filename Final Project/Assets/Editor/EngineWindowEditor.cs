@@ -18,7 +18,7 @@ public class EngineWindowEditor : EditorWindow {
     int currentEngine;
 
 	//TIFF ADDED
-	public int playerNum = 0;
+	public int trackNum = 0;
 
     //local Variables
     //button styles
@@ -46,19 +46,6 @@ public class EngineWindowEditor : EditorWindow {
     int scrollerValue = 0;
     GameObject startPoint = null;
 
-    //override void Show(int EngineNumber)
-    //{
-    //    engines = GameObject.FindWithTag("Player").GetComponents<ScriptEngine>();
-    //    foreach(ScriptEngine temp in engines)
-    //    {
-    //        if(temp.trackNumber == EngineNumber)
-    //        {
-    //            currentEngine = EngineNumber;
-    //            engine = temp;
-    //        }
-    //    }
-    //}
-
     void OnFocus()
     {
 		miniRight = new GUIStyle(EditorStyles.miniButtonRight);
@@ -68,12 +55,14 @@ public class EngineWindowEditor : EditorWindow {
 
         startPoint = GameObject.Find("Start");
 
-		Debug.Log (playerNum);
+		Debug.Log (trackNum);
 
-		if (playerNum == 1)
-			engine = GameObject.FindWithTag ("Player").GetComponent<Player1>();
-		else
-			engine = GameObject.FindWithTag("Player").GetComponent<Player2>();
+        if (trackNum == 1)
+            engine = GameObject.FindWithTag("Player").GetComponent<Track1>();
+        else if (trackNum == 2)
+            engine = GameObject.FindWithTag("Player").GetComponent<Track2>();
+        else
+            engine = GameObject.FindWithTag("Player").GetComponent<Track3>();
 
         movements = engine.movements;
         effects = engine.effects;

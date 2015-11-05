@@ -29,15 +29,15 @@ public class EngineEditor :  Editor
 		//SerializedProperty effectsArray = serializedObject.FindProperty ("effects");
 		//SerializedProperty facingsArray = serializedObject.FindProperty ("facings");
 
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("trackNumber"));
+        //EditorGUILayout.PropertyField(serializedObject.FindProperty("trackNumber"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("infiniteLoopCatcher"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty ("playerNumber"));
+		//EditorGUILayout.PropertyField(serializedObject.FindProperty ("trackNumber"));
 
         if(GUILayout.Button("Editor"))
         {
             EngineWindowEditor window = (EngineWindowEditor)EditorWindow.GetWindow(typeof(EngineWindowEditor));
 			//TIFFANY ADDED
-			window.playerNum = serializedObject.FindProperty ("playerNumber").intValue;
+			window.trackNum = serializedObject.FindProperty ("trackNumber").intValue;
             window.Show();
         }
 

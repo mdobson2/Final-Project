@@ -6280,7 +6280,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 4584e71eb167dc644a5cc91c0a20ff97, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4584e71eb167dc644a5cc91c0a20ff97, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6741,6 +6741,79 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1270705882}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1341334197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1341334198}
+  - 33: {fileID: 1341334201}
+  - 65: {fileID: 1341334200}
+  - 23: {fileID: 1341334199}
+  m_Layer: 0
+  m_Name: Track1
+  m_TagString: Track1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1341334198
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1341334197}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1607103681}
+  m_RootOrder: 4
+--- !u!23 &1341334199
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1341334197}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &1341334200
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1341334197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1341334201
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1341334197}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1341833443
 GameObject:
   m_ObjectHideFlags: 0
@@ -7361,8 +7434,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1607103681}
-  - 114: {fileID: 1607103683}
   - 114: {fileID: 1607103682}
+  - 114: {fileID: 1607103684}
+  - 114: {fileID: 1607103683}
   m_Layer: 0
   m_Name: Player (1)
   m_TagString: Player
@@ -7384,6 +7458,8 @@ Transform:
   - {fileID: 1828367135}
   - {fileID: 373053627}
   - {fileID: 594581652}
+  - {fileID: 1341334198}
+  - {fileID: 1777123055}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!114 &1607103682
@@ -7392,9 +7468,9 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1607103680}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48a781c87550aba4e9bf405d817def27, type: 3}
+  m_Script: {fileID: 11500000, guid: 231e8e14279d5994baf5f9ef86a9456c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   facings:
@@ -7420,8 +7496,8 @@ MonoBehaviour:
     showInEditor: 0
     name: 
   movements:
-  - movementTime: 0
-    moveType: 0
+  - movementTime: 2
+    moveType: 1
     endWaypoint: {fileID: 0}
     curveWaypoint: {fileID: 0}
     showInEditor: 1
@@ -7434,7 +7510,6 @@ MonoBehaviour:
   movementFocus: 0
   effectsFocus: 0
   facingFocus: 0
-  trackNumber: 0
   MAX_SPEED: 150
   infiniteLoopCatcher: 10000
   tigerShark: {fileID: 0}
@@ -7444,7 +7519,7 @@ MonoBehaviour:
   lookAtScript: {fileID: 0}
   fadeScript: {fileID: 0}
   splatterScript: {fileID: 0}
-  playerNumber: 2
+  trackNumber: 3
 --- !u!114 &1607103683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7453,53 +7528,73 @@ MonoBehaviour:
   m_GameObject: {fileID: 1607103680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 281241ba573a4644bba5c88c841ea2e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c0aeb7dca040ca4c97d712c920b19dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   facings:
-  - facingType: 3
-    targets:
-    - {fileID: 0}
+  - facingType: 2
+    targets: []
     rotationSpeed:
     - 0
-    - 0
-    lockTimes:
-    - 0
-    facingTime: 1
+    lockTimes: []
+    facingTime: 2
     showInEditor: 0
     targetSize: 0
     name: 
   effects:
-  - effectType: 0
-    effectTime: 1
+  - effectType: 3
+    effectTime: 2
     fadeInTime: 0
     fadeOutTime: 0
     imageScale: 0
-    magnitude: 1
+    magnitude: 0
     showInEditor: 0
     name: 
   movements:
-  - movementTime: 1
-    moveType: 0
-    endWaypoint: {fileID: 0}
+  - movementTime: 2
+    moveType: 1
+    endWaypoint: {fileID: 1166847751}
     curveWaypoint: {fileID: 0}
     showInEditor: 1
     name: 
-  - movementTime: 1
-    moveType: 0
-    endWaypoint: {fileID: 0}
+  - movementTime: 2
+    moveType: 2
+    endWaypoint: {fileID: 246566563}
+    curveWaypoint: {fileID: 944447734}
+    showInEditor: 1
+    name: 
+  - movementTime: 2
+    moveType: 2
+    endWaypoint: {fileID: 1145347144}
+    curveWaypoint: {fileID: 1017521040}
+    showInEditor: 1
+    name: 
+  - movementTime: 2
+    moveType: 1
+    endWaypoint: {fileID: 1592727153}
     curveWaypoint: {fileID: 0}
     showInEditor: 1
-    name: 1
+    name: 
+  - movementTime: 2
+    moveType: 2
+    endWaypoint: {fileID: 199605009}
+    curveWaypoint: {fileID: 2006975780}
+    showInEditor: 1
+    name: 
+  - movementTime: 2
+    moveType: 2
+    endWaypoint: {fileID: 260558638}
+    curveWaypoint: {fileID: 545105393}
+    showInEditor: 1
+    name: 
   currentWaypoint: 0
   speed: 0
   rotationSpeed: 15
   EndMarker: {fileID: 0}
   startPos: {x: 0, y: 0, z: 0}
-  movementFocus: 1
+  movementFocus: 5
   effectsFocus: 0
   facingFocus: 0
-  trackNumber: 0
   MAX_SPEED: 150
   infiniteLoopCatcher: 10000
   tigerShark: {fileID: 0}
@@ -7509,7 +7604,95 @@ MonoBehaviour:
   lookAtScript: {fileID: 0}
   fadeScript: {fileID: 0}
   splatterScript: {fileID: 0}
-  playerNumber: 1
+  trackNumber: 2
+--- !u!114 &1607103684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1607103680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b54455aef8a5d479080efe0b50e5a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  facings:
+  - facingType: 2
+    targets:
+    - {fileID: 260558638}
+    rotationSpeed:
+    - 2
+    - 2
+    lockTimes:
+    - 2
+    facingTime: 2
+    showInEditor: 0
+    targetSize: 0
+    name: 
+  effects:
+  - effectType: 3
+    effectTime: 2
+    fadeInTime: 0
+    fadeOutTime: 0
+    imageScale: 0
+    magnitude: 0
+    showInEditor: 0
+    name: 
+  movements:
+  - movementTime: 2
+    moveType: 1
+    endWaypoint: {fileID: 334596954}
+    curveWaypoint: {fileID: 0}
+    showInEditor: 1
+    name: 
+  - movementTime: 2
+    moveType: 2
+    endWaypoint: {fileID: 953928278}
+    curveWaypoint: {fileID: 143393309}
+    showInEditor: 1
+    name: 
+  - movementTime: 2
+    moveType: 2
+    endWaypoint: {fileID: 264194351}
+    curveWaypoint: {fileID: 980817946}
+    showInEditor: 1
+    name: 
+  - movementTime: 2
+    moveType: 1
+    endWaypoint: {fileID: 1860427808}
+    curveWaypoint: {fileID: 0}
+    showInEditor: 1
+    name: 
+  - movementTime: 2
+    moveType: 2
+    endWaypoint: {fileID: 1766226010}
+    curveWaypoint: {fileID: 1781001677}
+    showInEditor: 1
+    name: 
+  - movementTime: 2
+    moveType: 2
+    endWaypoint: {fileID: 1426822326}
+    curveWaypoint: {fileID: 629077473}
+    showInEditor: 1
+    name: 
+  currentWaypoint: 0
+  speed: 0
+  rotationSpeed: 15
+  EndMarker: {fileID: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  movementFocus: 5
+  effectsFocus: 0
+  facingFocus: 0
+  MAX_SPEED: 150
+  infiniteLoopCatcher: 10000
+  tigerShark: {fileID: 0}
+  particalSystem1: {fileID: 0}
+  particalSystem2: {fileID: 0}
+  cameraShakeScript: {fileID: 0}
+  lookAtScript: {fileID: 0}
+  fadeScript: {fileID: 0}
+  splatterScript: {fileID: 0}
+  trackNumber: 1
 --- !u!1 &1631288755
 GameObject:
   m_ObjectHideFlags: 0
@@ -7984,6 +8167,79 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1774387114}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1777123054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1777123055}
+  - 33: {fileID: 1777123059}
+  - 65: {fileID: 1777123058}
+  - 23: {fileID: 1777123057}
+  m_Layer: 0
+  m_Name: Track2
+  m_TagString: Track2
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1777123055
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1777123054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1607103681}
+  m_RootOrder: 5
+--- !u!23 &1777123057
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1777123054}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &1777123058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1777123054}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1777123059
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1777123054}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1781001677
 GameObject:
   m_ObjectHideFlags: 0
@@ -9461,7 +9717,6 @@ MonoBehaviour:
   movementFocus: 0
   effectsFocus: 0
   facingFocus: 0
-  trackNumber: 0
   MAX_SPEED: 150
   infiniteLoopCatcher: 100
   tigerShark: {fileID: 0}
@@ -9478,7 +9733,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1830398033}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -5.34000015, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1560734532}
@@ -9565,7 +9820,6 @@ MonoBehaviour:
   movementFocus: 5
   effectsFocus: 0
   facingFocus: 0
-  trackNumber: 0
   MAX_SPEED: 150
   infiniteLoopCatcher: 10000
   tigerShark: {fileID: 0}
@@ -9597,7 +9851,6 @@ MonoBehaviour:
   movementFocus: 0
   effectsFocus: 0
   facingFocus: 0
-  trackNumber: 0
   MAX_SPEED: 150
   infiniteLoopCatcher: 10000
   tigerShark: {fileID: 0}
@@ -9629,7 +9882,6 @@ MonoBehaviour:
   movementFocus: 0
   effectsFocus: 0
   facingFocus: 0
-  trackNumber: 0
   MAX_SPEED: 150
   infiniteLoopCatcher: 10000
   tigerShark: {fileID: 0}
