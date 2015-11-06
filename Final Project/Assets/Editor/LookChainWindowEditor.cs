@@ -22,8 +22,8 @@ public class LookChainWindowEditor : EditorWindow {
     public static void Init(int pFacingFocus)
     {
         LookChainWindowEditor window = (LookChainWindowEditor)EditorWindow.GetWindow(typeof(LookChainWindowEditor));
-        window.Show();
         facingFocus = pFacingFocus;
+        window.Show();
     }
 
     void OnFocus()
@@ -32,11 +32,6 @@ public class LookChainWindowEditor : EditorWindow {
         lockTimes = engine.facings[facingFocus].lockTimes;
         rotationSpeed = engine.facings[facingFocus].rotationSpeed;
         targets = engine.facings[facingFocus].targets;
-    }
-
-    //on the editor Window
-    void OnGUI()
-    {
         //minimum size for the display
         minSize = new Vector2(250, 300);
 
@@ -90,6 +85,12 @@ public class LookChainWindowEditor : EditorWindow {
         rotationSpeed[rotationSpeed.Length - 1] = EditorGUI.FloatField(windowDisplay, rotationSpeed[rotationSpeed.Length - 1]);
         windowDisplay = new Rect(offsetX, offsetY, 50f, displayHeight);
         EditorGUI.LabelField(windowDisplay, "secs");
+    }
+
+    //on the editor Window
+    void OnGUI()
+    {
+
     }
 
     void OnLostFocus()

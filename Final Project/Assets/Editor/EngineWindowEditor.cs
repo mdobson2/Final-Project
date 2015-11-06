@@ -18,7 +18,7 @@ public class EngineWindowEditor : EditorWindow {
     int currentEngine;
 
 	//TIFF ADDED
-	public int trackNum = 0;
+	public static int trackNum = 0;
 
     //local Variables
     //button styles
@@ -45,6 +45,14 @@ public class EngineWindowEditor : EditorWindow {
     float highDisplay = 0;
     int scrollerValue = 0;
     GameObject startPoint = null;
+
+    public static void Init(int TrackNumber)
+    {
+        EngineWindowEditor window = (EngineWindowEditor)EditorWindow.GetWindow(typeof(EngineWindowEditor));
+        trackNum = TrackNumber;
+        window.Show();
+        window.Show();
+    }
 
     void OnFocus()
     {
@@ -1535,8 +1543,11 @@ public class EngineWindowEditor : EditorWindow {
                 //right button
                 tempStyle = miniRight;
                 float tempDraw = movements[i].movementTime - (movementDraw - displayRight);
-                windowDisplay = new Rect(offsetX, offsetY, (600 / (displayRight - displayLeft) * tempDraw), DISPLAY_HEIGHT);
-                offsetX += (600 / (displayRight - displayLeft) * tempDraw);
+                float buttonLength = 600 / (displayRight - displayLeft) * tempDraw;
+                if (buttonLength > 600)
+                    buttonLength = 600;
+                windowDisplay = new Rect(offsetX, offsetY, buttonLength, DISPLAY_HEIGHT);
+                offsetX += buttonLength;
                 if (GUI.Button(windowDisplay, name, tempStyle))
                 {
                     movementFocus = i;
@@ -1650,8 +1661,11 @@ public class EngineWindowEditor : EditorWindow {
                 //right button
                 tempStyle = miniRight;
                 float tempDraw = tempTime - (effectDraw - displayRight);
-                windowDisplay = new Rect(offsetX, offsetY, (600 / (displayRight - displayLeft) * tempDraw), DISPLAY_HEIGHT);
-                offsetX += (600 / (displayRight - displayLeft) * tempDraw);
+                float buttonLength = 600 / (displayRight - displayLeft) * tempDraw;
+                if (buttonLength > 600)
+                    buttonLength = 600;
+                windowDisplay = new Rect(offsetX, offsetY, buttonLength, DISPLAY_HEIGHT);
+                offsetX += buttonLength;
                 if (GUI.Button(windowDisplay, name, tempStyle))
                 {
                     effectFocus = i;
@@ -1748,18 +1762,18 @@ public class EngineWindowEditor : EditorWindow {
 
             if (facingDraw < displayRight)
             {
-                if(facingDraw - tempTime > displayLeft)
+                if (facingDraw - tempTime > displayLeft)
                 {
                     //middle button
                     tempStyle = miniMid;
                     windowDisplay = new Rect(offsetX, offsetY, (600 / (displayRight - displayLeft) * tempTime), DISPLAY_HEIGHT);
                     offsetX += (600 / (displayRight - displayLeft) * tempTime);
-                    if(GUI.Button(windowDisplay, name,tempStyle))
+                    if (GUI.Button(windowDisplay, name, tempStyle))
                     {
                         facingFocus = i;
                     }
                 }
-                else if(facingDraw > displayLeft)
+                else if (facingDraw > displayLeft)
                 {
                     //left button
                     tempStyle = miniLeft;
@@ -1772,13 +1786,16 @@ public class EngineWindowEditor : EditorWindow {
                     }
                 }
             }
-            else if(facingDraw - tempTime <= displayRight)
+            else if (facingDraw - tempTime <= displayRight)
             {
                 //right button
                 tempStyle = miniRight;
-                float tempDraw = facingDraw - displayLeft;
-                windowDisplay = new Rect(offsetX, offsetY, (600 / (displayRight - displayLeft) * tempDraw), DISPLAY_HEIGHT);
-                offsetX += (600 / (displayRight - displayLeft) * tempDraw);
+                float tempDraw = tempTime - (facingDraw - displayRight);
+                float buttonLength = 600 / (displayRight - displayLeft) * tempDraw;
+                if (buttonLength > 600)
+                    buttonLength = 600;
+                windowDisplay = new Rect(offsetX, offsetY, buttonLength, DISPLAY_HEIGHT);
+                offsetX += buttonLength;
                 if (GUI.Button(windowDisplay, name, tempStyle))
                 {
                     facingFocus = i;

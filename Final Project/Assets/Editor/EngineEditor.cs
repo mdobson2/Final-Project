@@ -35,10 +35,7 @@ public class EngineEditor :  Editor
 
         if(GUILayout.Button("Editor"))
         {
-            EngineWindowEditor window = (EngineWindowEditor)EditorWindow.GetWindow(typeof(EngineWindowEditor));
-			//TIFFANY ADDED
-			window.trackNum = serializedObject.FindProperty ("trackNumber").intValue;
-            window.Show();
+            EngineWindowEditor.Init(serializedObject.FindProperty("trackNumber").intValue);
         }
 
 		//PrintInformation ();
