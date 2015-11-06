@@ -49,8 +49,8 @@ public class EngineWindowEditor : EditorWindow {
     public static void Init(int TrackNumber)
     {
         EngineWindowEditor window = (EngineWindowEditor)EditorWindow.GetWindow(typeof(EngineWindowEditor));
+		window.Show();
         trackNum = TrackNumber;
-        window.Show();
         window.Show();
     }
 
