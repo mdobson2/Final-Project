@@ -35,7 +35,7 @@ public class ScriptEngine : MonoBehaviour
     public int facingFocus = 0;
     #endregion
 
-    //public int trackNumber;
+    //public int trackNumber = -1;
     public float MAX_SPEED = 150;
     const float CLOSE_ENOUGH = 1;
 	public int infiniteLoopCatcher = 10000;
@@ -64,7 +64,6 @@ public class ScriptEngine : MonoBehaviour
         tigerShark = GameObject.Find("SPACESHIP 1");
         particalSystem1 = GameObject.Find("ParticalSystem1");
         particalSystem2 = GameObject.Find("ParticalSystem2");
-
     }
 
 	void PrintInformation()
@@ -96,17 +95,10 @@ public class ScriptEngine : MonoBehaviour
                 speed -= 5f;
             }
         }
-        if (Input.GetKey(KeyCode.A))
-        {
 
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-
-        }
-        particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
-        particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
+        
+        //particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
+        //particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
     }
 
     #region Movement Engine

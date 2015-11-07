@@ -29,7 +29,7 @@ public class EngineEditor :  Editor
 		//SerializedProperty effectsArray = serializedObject.FindProperty ("effects");
 		//SerializedProperty facingsArray = serializedObject.FindProperty ("facings");
 
-        //EditorGUILayout.PropertyField(serializedObject.FindProperty("trackNumber"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("trackNumber"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("infiniteLoopCatcher"));
 		//EditorGUILayout.PropertyField(serializedObject.FindProperty ("trackNumber"));
 

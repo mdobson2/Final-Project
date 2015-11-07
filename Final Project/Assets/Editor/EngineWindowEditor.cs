@@ -66,11 +66,11 @@ public class EngineWindowEditor : EditorWindow {
 		Debug.Log (trackNum);
 
         if (trackNum == 1)
-            engine = GameObject.FindWithTag("Player").GetComponent<Track1>();
+            engine = GameObject.FindWithTag("Track1").GetComponent<Track1>();
         else if (trackNum == 2)
-            engine = GameObject.FindWithTag("Player").GetComponent<Track2>();
+            engine = GameObject.FindWithTag("Track2").GetComponent<Track2>();
         else
-            engine = GameObject.FindWithTag("Player").GetComponent<Track3>();
+            engine = GameObject.FindWithTag("Track3").GetComponent<Track3>();
 
         movements = engine.movements;
         effects = engine.effects;
