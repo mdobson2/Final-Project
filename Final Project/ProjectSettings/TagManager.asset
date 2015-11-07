@@ -7,6 +7,7 @@ TagManager:
   - Track1
   - Track2
   - Track3
+  - Ship
   layers:
   - Default
   - TransparentFX

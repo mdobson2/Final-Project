@@ -1,17 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ScriptShipFollow : MonoBehaviour
 {
 
-    #region Script Access
+    #region Object Access
     GameObject track1;
     GameObject track2;
     GameObject track3;
+    Text speedText;
     #endregion
 
     #region Local Variables
     public int activeTrack = 1;
+    public float resistance = 1f;
+    public float acceleration = 6f;
+    public float deceleration = 10f;
+    public float MAX_SPEED = 200;
+    public float speed = 0.0f;
+
+    public bool testMode = false;
     #endregion
 
     // Use this for initialization
@@ -19,10 +28,13 @@ public class ScriptShipFollow : MonoBehaviour
         track1 = GameObject.FindGameObjectWithTag("Track1");
         track2 = GameObject.FindGameObjectWithTag("Track2");
         track3 = GameObject.FindGameObjectWithTag("Track3");
+        speedText = GameObject.Find("SpeedText").GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        //input for switching tracks
 	    if(Input.GetKeyDown(KeyCode.A))
         {
             if(activeTrack == 1)
@@ -47,8 +59,51 @@ public class ScriptShipFollow : MonoBehaviour
             }
         }
 
+        //input for acceleration
+        if (Input.GetKey(KeyCode.W))
+        {
+            if (speed < MAX_SPEED)
+            {
+                speed += acceleration;
+            }
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            if (speed > 0)
+            {
+                speed -= deceleration;
+            }
+        }
+
+        //small resistance
+        if(!testMode)
+        {
+            if (speed > resistance)
+            {
+                speed -= resistance;
+            }
+
+            if (speed <= resistance)
+            {
+                speed = 0.0f;
+            }
+        }
+
+        //fail safe
+        if(speed < 0)
+        {
+            speed = 0.0f;
+        }
+
+        //Update
+        UpdateSpeedText();
         UpdatePosition();
 	}
+
+    public void UpdateSpeedText()
+    {
+        speedText.text = speed.ToString();
+    }
 
     public void UpdatePosition()
     {

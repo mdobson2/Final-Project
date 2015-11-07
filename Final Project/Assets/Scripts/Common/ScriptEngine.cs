@@ -22,11 +22,15 @@ public class ScriptEngine : MonoBehaviour
     #region Movement Variables
     public List<ScriptMovements> movements;
     public int currentWaypoint = 0;
-    public float speed = 0.0f;
+    //public float speed = 0.0f;
     public float rotationSpeed = 15.0f;
     public Transform EndMarker;
     private float journeyLength;
     public Vector3 startPos;
+    //public float resistance = 1f;
+    //public float acceleration = 6f;
+    //public float deceleration = 10f;
+    //public float MAX_SPEED = 200;
     #endregion
 
     #region Editor Variables
@@ -36,7 +40,6 @@ public class ScriptEngine : MonoBehaviour
     #endregion
 
     //public int trackNumber = -1;
-    public float MAX_SPEED = 150;
     const float CLOSE_ENOUGH = 1;
 	public int infiniteLoopCatcher = 10000;
 
@@ -51,7 +54,16 @@ public class ScriptEngine : MonoBehaviour
     public ScriptLookAtTarget lookAtScript;
     public ScriptScreenFade fadeScript;
     public ScriptSplatter splatterScript;
+    public ScriptShipFollow shipScript;
     #endregion
+
+    void Awake()
+    {
+        shipScript = GameObject.FindGameObjectWithTag("Ship").GetComponent<ScriptShipFollow>();
+        tigerShark = GameObject.Find("SPACESHIP 1");
+        particalSystem1 = GameObject.Find("ParticalSystem1");
+        particalSystem2 = GameObject.Find("ParticalSystem2");
+    }
 
     void Start()
     {
@@ -60,10 +72,7 @@ public class ScriptEngine : MonoBehaviour
         StartCoroutine(EffectsEngine());
         StartCoroutine(FacingEngine());
 
-        startPos = transform.position;
-        tigerShark = GameObject.Find("SPACESHIP 1");
-        particalSystem1 = GameObject.Find("ParticalSystem1");
-        particalSystem2 = GameObject.Find("ParticalSystem2");
+        startPos = this.transform.position;
     }
 
 	void PrintInformation()
@@ -81,21 +90,30 @@ public class ScriptEngine : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            if (speed < MAX_SPEED)
-            {
-                speed += 5f;
-            }
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            if (speed > 0)
-            {
-                speed -= 5f;
-            }
-        }
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    if (speed < MAX_SPEED)
+        //    {
+        //        speed += acceleration;
+        //    }
+        //}
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    if (speed > 0)
+        //    {
+        //        speed -= deceleration;
+        //    }
+        //}
 
+        //if (speed > resistance)
+        //{
+        //    speed -= resistance;
+        //}
+
+        //if (speed < resistance)
+        //{
+        //    speed = 0.0f;
+        //}
         
         //particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
         //particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
@@ -150,7 +168,7 @@ public class ScriptEngine : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
             //transform.rotation = Quaternion.Lerp(tempFacing, facing, rotationSpeed * Time.deltaTime);
             distRemaining = Vector3.Distance(transform.position, EndMarker.position);
-            transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * speed);
+            transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * shipScript.speed);
             yield return null;
         }
         Debug.Log("Finished while loop");
@@ -173,8 +191,8 @@ public class ScriptEngine : MonoBehaviour
             curveLength += Vector3.Distance(startPos, lineEnd);
             startPos = lineEnd;
         }
-        float curveTime = curveLength / MAX_SPEED;
-        float acceleration = Time.deltaTime * (speed / MAX_SPEED);
+        float curveTime = curveLength / shipScript.MAX_SPEED;
+        float acceleration = Time.deltaTime * (shipScript.speed / shipScript.MAX_SPEED);
         Debug.Log(acceleration);
         Vector3 lastPos = transform.position;
         Vector3 lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .01f) - lastPos;
@@ -193,7 +211,7 @@ public class ScriptEngine : MonoBehaviour
             //Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, curveTime * acceleration), Color.red, 10f);
             //transform.position += GetPoint(startCurve, target, curve, curveTime * acceleration) - lastPos;
             transform.position += GetPoint(startCurve, target, curve, acceleration) - lastPos;
-            acceleration += Time.deltaTime * (speed / MAX_SPEED);
+            acceleration += Time.deltaTime * (shipScript.speed / shipScript.MAX_SPEED);
             lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .001f) - lastPos;
             newDir = Vector3.RotateTowards(transform.forward, lookAtTarget, rotationSpeed, 0.0f);
             //Debug.Log(acceleration);
