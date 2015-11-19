@@ -123,4 +123,23 @@ public class ScriptShipFollow : MonoBehaviour
                 break;
         }
     }
+
+    public void BlackOut(float angle)
+    {
+        int angleSpeed;
+        if(angle == 0)
+        {
+            Debug.Log("Max speed available");
+        }
+        else if (angle < 90)
+        {
+            angleSpeed = Mathf.RoundToInt(((MAX_SPEED / 4) * 3) + ((90 - angle)/90) * (MAX_SPEED / 4));
+            Debug.Log("Angle Speed: " + angleSpeed);
+        }
+        else
+        {
+            angleSpeed = Mathf.RoundToInt(MAX_SPEED / 4);
+            Debug.Log("Haven't done angles greater than 90 degrees yet");
+        }
+    }
 }

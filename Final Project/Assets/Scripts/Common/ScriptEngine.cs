@@ -133,7 +133,7 @@ public class ScriptEngine : MonoBehaviour
                 case MovementTypes.STRAIGHT:
                     EndMarker = movements[i].endWaypoint.transform;
                     //Debug.Log("Calling movement coroutine");
-                    Blackout(90f);
+                    shipScript.BlackOut(0f);
                     yield return StartCoroutine(StraightMovement(movements[i].endWaypoint.transform));
                     startPosition = movements[i].endWaypoint.transform.position;
                     break;
@@ -146,6 +146,7 @@ public class ScriptEngine : MonoBehaviour
                     angle = Mathf.Rad2Deg * Mathf.Acos(angle);
                     angle *= 2;
                     Debug.Log("Angle: " + angle);
+                    shipScript.BlackOut(angle);
                     yield return StartCoroutine(BezierMovement(movements[i].endWaypoint.transform.position, movements[i].curveWaypoint.transform.position));
                     startPosition = movements[i].endWaypoint.transform.position;
                     break;
@@ -240,12 +241,6 @@ public class ScriptEngine : MonoBehaviour
     #endregion
     #endregion
 
-    #region Blackout
-    void Blackout(float angle)
-    {
-
-    }
-    #endregion
 
     #region Effects Engine
     IEnumerator EffectsEngine()
