@@ -23,7 +23,7 @@ public class ScriptEngine : MonoBehaviour
     public List<ScriptMovements> movements;
     public int currentWaypoint = 0;
     //public float speed = 0.0f;
-    public float rotationSpeed = 15.0f;
+    public float rotationSpeed = 1.0f;
     public Transform EndMarker;
     private float journeyLength;
     public Vector3 startPos;
@@ -123,7 +123,8 @@ public class ScriptEngine : MonoBehaviour
     IEnumerator movementEngine()
     {
 		int numHits = 0;
-        Debug.Log("Entering Engine");
+        //Debug.Log("Entering Engine");
+        Vector3 startPosition = transform.position;
         for (int i = 0; i < movements.Count; i++)
         //for (int i = 0; i < movements.Length; i++ )
         {
@@ -131,12 +132,22 @@ public class ScriptEngine : MonoBehaviour
             {
                 case MovementTypes.STRAIGHT:
                     EndMarker = movements[i].endWaypoint.transform;
-                    Debug.Log("Calling movement coroutine");
+                    //Debug.Log("Calling movement coroutine");
+                    Blackout(90f);
                     yield return StartCoroutine(StraightMovement(movements[i].endWaypoint.transform));
+                    startPosition = movements[i].endWaypoint.transform.position;
                     break;
                 case MovementTypes.BEZIER:
-                    Debug.Log("LEEEERRRRROOOOOOYYYYYY JEEEENNNNKKKKIIIINNNNSSSSS!!!!");
+                    //Debug.Log("Calling Bezier movement coroutine");
+                    float a = Vector3.Distance(movements[i].curveWaypoint.transform.position, startPosition);
+                    float b = Vector3.Distance(movements[i].curveWaypoint.transform.position, movements[i].endWaypoint.transform.position);
+                    float c = Vector3.Distance(movements[i].endWaypoint.transform.position, startPosition);
+                    float angle = ((b * b) + (c * c) - (a * a)) / (2 * b * c);
+                    angle = Mathf.Rad2Deg * Mathf.Acos(angle);
+                    angle *= 2;
+                    Debug.Log("Angle: " + angle);
                     yield return StartCoroutine(BezierMovement(movements[i].endWaypoint.transform.position, movements[i].curveWaypoint.transform.position));
+                    startPosition = movements[i].endWaypoint.transform.position;
                     break;
             }
             if (i == movements.Count - 1)
@@ -158,11 +169,11 @@ public class ScriptEngine : MonoBehaviour
 
     IEnumerator StraightMovement(Transform target)
     {
-        Debug.Log("Starting movement coroutine");
+        //Debug.Log("Starting movement coroutine");
         Quaternion facing = Quaternion.LookRotation(target.transform.position - transform.position);
         float distRemaining = Vector3.Distance(transform.position, EndMarker.position);
         //Quaternion tempFacing = transform.rotation;
-        Debug.Log("Starting loop for move towards");
+        //Debug.Log("Starting loop for move towards");
         while (distRemaining > CLOSE_ENOUGH)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
@@ -171,7 +182,7 @@ public class ScriptEngine : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * shipScript.speed);
             yield return null;
         }
-        Debug.Log("Finished while loop");
+        //Debug.Log("Finished while loop");
     }
 
     #region Bezier Movement
@@ -193,7 +204,7 @@ public class ScriptEngine : MonoBehaviour
         }
         float curveTime = curveLength / shipScript.MAX_SPEED;
         float acceleration = Time.deltaTime * (shipScript.speed / shipScript.MAX_SPEED);
-        Debug.Log(acceleration);
+        //Debug.Log(acceleration);
         Vector3 lastPos = transform.position;
         Vector3 lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .01f) - lastPos;
 
@@ -227,6 +238,13 @@ public class ScriptEngine : MonoBehaviour
         return (oneMinusT * oneMinusT * start + 2f * oneMinusT * t * curve + t * t * end);
     }
     #endregion
+    #endregion
+
+    #region Blackout
+    void Blackout(float angle)
+    {
+
+    }
     #endregion
 
     #region Effects Engine
