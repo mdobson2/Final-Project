@@ -19,6 +19,9 @@ public class ScriptShipFollow : MonoBehaviour
     public float deceleration = 10f;
     public float MAX_SPEED = 200;
     public float speed = 0.0f;
+    public int angleSpeed = 0;
+    public float blackoutTracker = 0.0f;
+    public float MAX_BLACKOUT = 200;
 
     public bool testMode = false;
     #endregion
@@ -94,11 +97,30 @@ public class ScriptShipFollow : MonoBehaviour
         {
             speed = 0.0f;
         }
+        if(speed > MAX_SPEED)
+        {
+            speed = MAX_SPEED;
+        }
 
         //Update
         UpdateSpeedText();
         UpdatePosition();
+        BlackoutUpdate();
 	}
+    
+    void BlackoutUpdate()
+    {
+        if(speed > angleSpeed)
+        {
+            float blackoutIncrease = 0.0f;
+            blackoutIncrease = speed - angleSpeed / 2;
+            blackoutTracker += blackoutIncrease;
+        }
+        if(blackoutTracker > MAX_BLACKOUT)
+        {
+            Debug.Log("Blacked Out!");
+        }
+    }
 
     public void UpdateSpeedText()
     {
@@ -124,12 +146,13 @@ public class ScriptShipFollow : MonoBehaviour
         }
     }
 
-    public void BlackOut(float angle)
+    public void BlackOutSet(float angle)
     {
-        int angleSpeed;
+        //int angleSpeed;
         if(angle == 0)
         {
             Debug.Log("Max speed available");
+            angleSpeed = Mathf.RoundToInt(MAX_SPEED + 5f);
         }
         else if (angle < 90)
         {
@@ -138,8 +161,9 @@ public class ScriptShipFollow : MonoBehaviour
         }
         else
         {
-            angleSpeed = Mathf.RoundToInt(MAX_SPEED / 4);
-            Debug.Log("Haven't done angles greater than 90 degrees yet");
+            angleSpeed = Mathf.RoundToInt((MAX_SPEED / 4) + ((180 - angle) / 180) * (MAX_SPEED / 4));
+            //Debug.Log("Haven't done angles greater than 90 degrees yet");
+            Debug.Log("Angle Speed: " + angleSpeed);
         }
     }
 }
