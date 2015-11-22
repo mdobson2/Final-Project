@@ -1205,6 +1205,7 @@ public class EngineWindowEditor : EditorWindow {
                 {
                     facings[facingFocus].rotationSpeed = new float[facings[facingFocus].targetSize + 1];
                     Debug.Log("length after " + facings[facingFocus].rotationSpeed.Length);
+                    RecordData();
                 }
                 //offsetX += 5f;
                 //Vector2 lookChainPoint1 = new Vector2(437, 70);
@@ -1229,7 +1230,8 @@ public class EngineWindowEditor : EditorWindow {
                 windowDisplay = new Rect(offsetX, offsetY, ELEMENT_DISPLAY, DISPLAY_HEIGHT);
                 if (GUI.Button(windowDisplay, "Edit Targets"))
                 {
-                    LookChainWindowEditor.Init(facingFocus);
+                    RecordData();
+                    LookChainWindowEditor.Init(facingFocus, engine);
                 }
                 offsetY = 120f;
                 break;
@@ -1813,12 +1815,14 @@ public class EngineWindowEditor : EditorWindow {
 
     void RecordData()
     {
+        Debug.Log("Recording Data, Please Wait");
         engine.movements = movements;
         engine.effects = effects;
         engine.facings = facings;
         engine.movementFocus = movementFocus;
         engine.effectsFocus = effectFocus;
         engine.facingFocus = facingFocus;
+        Debug.Log("Recording Complete");
 //		Debug.Log ("~~~LOST FOCUS MOVEMENT COUNT~~~\n" +
 //			"\tENGINE: " + engine.movements.Count +
 //		           "\t\tWINDOW: " + movements.Count);

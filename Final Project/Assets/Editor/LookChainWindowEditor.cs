@@ -13,28 +13,44 @@ public class LookChainWindowEditor : EditorWindow {
     float[] rotationSpeed;
     GameObject[] targets;
 
-    ScriptEngine engine;
-
+    static ScriptEngine engine;
     static int facingFocus = 0;
 
 
 
-    public static void Init(int pFacingFocus)
+    public static void Init(int FacingFocus, ScriptEngine Engine)
     {
         LookChainWindowEditor window = (LookChainWindowEditor)EditorWindow.GetWindow(typeof(LookChainWindowEditor));
-        facingFocus = pFacingFocus;
+        facingFocus = FacingFocus;
+        Debug.Log(facingFocus);
+        engine = Engine;
+        if(engine == null)
+        {
+            Debug.LogError("No Engine");
+        }
         window.Show();
+
     }
 
     void OnFocus()
     {
-        engine = GameObject.FindWithTag("Player").GetComponent<ScriptEngine>();
+        //engine = GameObject.FindWithTag("Player").GetComponent<ScriptEngine>();
         lockTimes = engine.facings[facingFocus].lockTimes;
         rotationSpeed = engine.facings[facingFocus].rotationSpeed;
         targets = engine.facings[facingFocus].targets;
+
+        Debug.Log(lockTimes.Length);
+        Debug.Log(rotationSpeed.Length);
+        Debug.Log(targets.Length);
+
         //minimum size for the display
         minSize = new Vector2(250, 300);
 
+    }
+
+    //on the editor Window
+    void OnGUI()
+    {
         //local variables
         Rect windowDisplay;
         float displayHeight = 17f;
@@ -85,11 +101,6 @@ public class LookChainWindowEditor : EditorWindow {
         rotationSpeed[rotationSpeed.Length - 1] = EditorGUI.FloatField(windowDisplay, rotationSpeed[rotationSpeed.Length - 1]);
         windowDisplay = new Rect(offsetX, offsetY, 50f, displayHeight);
         EditorGUI.LabelField(windowDisplay, "secs");
-    }
-
-    //on the editor Window
-    void OnGUI()
-    {
 
     }
 

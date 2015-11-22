@@ -9,6 +9,7 @@ public class ScriptShipFollow : MonoBehaviour
     GameObject track1;
     GameObject track2;
     GameObject track3;
+    GameObject myParent;
     Text speedText;
     #endregion
 
@@ -22,61 +23,31 @@ public class ScriptShipFollow : MonoBehaviour
     public int angleSpeed = 0;
     public float blackoutTracker = 0.0f;
     public float MAX_BLACKOUT = 200;
+    public float blackoutIncrease = 0.5f;
+    public float blackoutDecrease = 0.1f;
+    bool gameOver = false;
+    GameObject gameOverText;
 
     public bool testMode = false;
     #endregion
 
     // Use this for initialization
 	void Start () {
-        track1 = GameObject.FindGameObjectWithTag("Track1");
-        track2 = GameObject.FindGameObjectWithTag("Track2");
-        track3 = GameObject.FindGameObjectWithTag("Track3");
+        myParent = this.transform.parent.gameObject;
+        track1 = myParent.gameObject.transform.GetChild(0).gameObject;
+        track2 = myParent.gameObject.transform.GetChild(1).gameObject;
+        track3 = myParent.gameObject.transform.GetChild(2).gameObject;
         speedText = GameObject.Find("SpeedText").GetComponent<Text>();
+        gameOverText = GameObject.Find("GameOverText");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-        //input for switching tracks
-	    if(Input.GetKeyDown(KeyCode.A))
+        if(!gameOver)
         {
-            if(activeTrack == 1)
-            {
-                activeTrack = 2;
-            }
-            if(activeTrack == 3)
-            {
-                activeTrack = 1;
-            }
+            GetInput();
         }
-
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            if(activeTrack == 1)
-            {
-                activeTrack = 3;
-            }
-            if(activeTrack == 2)
-            {
-                activeTrack = 1;
-            }
-        }
-
-        //input for acceleration
-        if (Input.GetKey(KeyCode.W))
-        {
-            if (speed < MAX_SPEED)
-            {
-                speed += acceleration;
-            }
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            if (speed > 0)
-            {
-                speed -= deceleration;
-            }
-        }
+        gameOverText.SetActive(gameOver);
 
         //small resistance
         if(!testMode)
@@ -108,17 +79,63 @@ public class ScriptShipFollow : MonoBehaviour
         BlackoutUpdate();
 	}
     
+
+    void GetInput()
+    {
+        //input for switching tracks
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (activeTrack == 1)
+            {
+                activeTrack = 2;
+            }
+            if (activeTrack == 3)
+            {
+                activeTrack = 1;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (activeTrack == 1)
+            {
+                activeTrack = 3;
+            }
+            if (activeTrack == 2)
+            {
+                activeTrack = 1;
+            }
+        }
+
+        //input for acceleration
+        if (Input.GetKey(KeyCode.W))
+        {
+            if (speed < MAX_SPEED)
+            {
+                speed += acceleration;
+            }
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            if (speed > 0)
+            {
+                speed -= deceleration;
+            }
+        }
+    }
     void BlackoutUpdate()
     {
         if(speed > angleSpeed)
         {
-            float blackoutIncrease = 0.0f;
-            blackoutIncrease = speed - angleSpeed / 2;
+            //float blackoutIncrease = 0.0f;
+            //blackoutIncrease = speed - angleSpeed;
             blackoutTracker += blackoutIncrease;
         }
+        blackoutTracker -= blackoutDecrease;
         if(blackoutTracker > MAX_BLACKOUT)
         {
-            Debug.Log("Blacked Out!");
+            //Debug.Log("Blacked Out!");
+            gameOver = true;
         }
     }
 
@@ -156,14 +173,20 @@ public class ScriptShipFollow : MonoBehaviour
         }
         else if (angle < 90)
         {
+            //Debug.Log("Angle less than 90");
             angleSpeed = Mathf.RoundToInt(((MAX_SPEED / 4) * 3) + ((90 - angle)/90) * (MAX_SPEED / 4));
-            Debug.Log("Angle Speed: " + angleSpeed);
+            //Debug.Log("Angle Speed: " + angleSpeed);
+            Debug.Log("~Angle less than 90~\n" +
+                "\tAngle: " + angle + "\t\t Angle Speed: " + angleSpeed);
         }
         else
         {
+            //Debug.Log("Angle greater than 90");
             angleSpeed = Mathf.RoundToInt((MAX_SPEED / 4) + ((180 - angle) / 180) * (MAX_SPEED / 4));
             //Debug.Log("Haven't done angles greater than 90 degrees yet");
-            Debug.Log("Angle Speed: " + angleSpeed);
+            //Debug.Log("Angle Speed: " + angleSpeed);
+            Debug.Log("~Angle greater than 90~\n" +
+                "\tAngle: " + angle + "\t\t Angle Speed: " + angleSpeed);
         }
     }
 }
