@@ -23,3 +23,13 @@ public enum EffectTypes
     FADE,
     WAIT
 }
+
+public enum UpgradeTypes
+{
+    ACCELERATION,
+    BRAKES,
+    MAXSPEED,
+    MAXBLACKOUT,
+    BLACKOUTRESISTANCE,
+    BLACKOUTRECOVERY
+}

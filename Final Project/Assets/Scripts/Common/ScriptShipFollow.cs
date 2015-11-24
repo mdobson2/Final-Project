@@ -34,9 +34,9 @@ public class ScriptShipFollow : MonoBehaviour
     // Use this for initialization
 	void Start () {
         myParent = this.transform.parent.gameObject;
-        track1 = myParent.gameObject.transform.GetChild(0).gameObject;
-        track2 = myParent.gameObject.transform.GetChild(1).gameObject;
-        track3 = myParent.gameObject.transform.GetChild(2).gameObject;
+        track1 = GameObject.FindGameObjectWithTag("Track1");
+        track2 = GameObject.FindGameObjectWithTag("Track2");
+		track3 = GameObject.FindGameObjectWithTag("Track3");
         speedText = GameObject.Find("SpeedText").GetComponent<Text>();
         gameOverText = GameObject.Find("GameOverText");
 	}
