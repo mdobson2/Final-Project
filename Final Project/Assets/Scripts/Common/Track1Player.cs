@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// This engine will run the basic logistics of the game, movement, nodes, ect.
 /// </summary>
 
-public class ScriptEngine : MonoBehaviour
+public class Track1Player : MonoBehaviour
 {
 
     #region Facing Variables
@@ -41,7 +41,7 @@ public class ScriptEngine : MonoBehaviour
 
     //public int trackNumber = -1;
     const float CLOSE_ENOUGH = 1;
-	public int infiniteLoopCatcher = 10000;
+    public int infiniteLoopCatcher = 10000;
 
     #region TigerShark Variables
     public GameObject tigerShark;
@@ -61,16 +61,17 @@ public class ScriptEngine : MonoBehaviour
     void Awake()
     {
         //shipScript = GameObject.FindGameObjectWithTag("Ship").GetComponent<ScriptShipFollow>();
-        //myParent = this.transform.parent.gameObject;
-        //shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
+        myParent = this.transform.parent.gameObject;
+        shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
         tigerShark = GameObject.Find("SPACESHIP 1");
         particalSystem1 = GameObject.Find("ParticalSystem1");
         particalSystem2 = GameObject.Find("ParticalSystem2");
+        movements = GameObject.Find("Track1World").GetComponent<ScriptEngine>().movements;
     }
 
     void Start()
     {
-		PrintInformation ();
+        PrintInformation();
         StartCoroutine(movementEngine());
         StartCoroutine(EffectsEngine());
         StartCoroutine(FacingEngine());
@@ -78,18 +79,18 @@ public class ScriptEngine : MonoBehaviour
         startPos = this.transform.position;
     }
 
-	void PrintInformation()
-	{
-		Debug.Log ("Printing Movement Engine Information!");
-		Debug.Log ("Movement Length: " + movements.Count);
+    void PrintInformation()
+    {
+        Debug.Log("Printing Movement Engine Information!");
+        Debug.Log("Movement Length: " + movements.Count);
 
-		foreach(ScriptMovements moveScript in movements)
-		{
-			Debug.Log ("\tMovement printing...");
-			Debug.Log ("\t" + moveScript.moveType.ToString() + ".");
-			Debug.Log ("\tEnd Point Name: " + moveScript.endWaypoint.gameObject.name + ".");
-		}
-	}
+        foreach (ScriptMovements moveScript in movements)
+        {
+            Debug.Log("\tMovement printing...");
+            Debug.Log("\t" + moveScript.moveType.ToString() + ".");
+            Debug.Log("\tEnd Point Name: " + moveScript.endWaypoint.gameObject.name + ".");
+        }
+    }
 
     void Update()
     {
@@ -117,7 +118,7 @@ public class ScriptEngine : MonoBehaviour
         //{
         //    speed = 0.0f;
         //}
-        
+
         //particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
         //particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
     }
@@ -125,7 +126,7 @@ public class ScriptEngine : MonoBehaviour
     #region Movement Engine
     IEnumerator movementEngine()
     {
-		int numHits = 0;
+        int numHits = 0;
         //Debug.Log("Entering Engine");
         Vector3 startPosition = transform.position;
         for (int i = 0; i < movements.Count; i++)
@@ -166,7 +167,7 @@ public class ScriptEngine : MonoBehaviour
                 Debug.Log("Infinite loop!");
             }
 
-			numHits++;
+            numHits++;
         }
         yield return null;
     }
@@ -345,50 +346,65 @@ public class ScriptEngine : MonoBehaviour
 
     void OnDrawGizmos()
     {
-		Vector3 lineStarting = startPos;
-		if (movements != null) {
-			for (int i = 0; i < movements.Count; i++) {
-				if (movements [i].moveType == MovementTypes.BEZIER) {
-					Gizmos.color = Color.cyan;
-				}
-				if (movements [i].moveType == MovementTypes.STRAIGHT) {
-					Gizmos.color = Color.green;
-				}
-				if (i == movementFocus - 1 || i == movementFocus + 1) {
-					Gizmos.color = Color.yellow;
-				}
-				if (i == movementFocus) {
-					Gizmos.color = Color.magenta;
-				}
-				switch (movements [i].moveType) {
-				case MovementTypes.STRAIGHT:
-					if (movements [i].endWaypoint != null) {
-						//Gizmos.color = Color.blue;
-						Gizmos.DrawLine (lineStarting, movements [i].endWaypoint.transform.position);
-						lineStarting = movements [i].endWaypoint.transform.position;
-					} else {
-						Debug.Log ("Missing Element in " + movements [i].moveType + " waypoint");
-					}
-					break;
-				case MovementTypes.BEZIER:
-					if (movements [i].endWaypoint != null && movements [i].curveWaypoint != null) {
-						//Gizmos.color = Color.green;
-						Vector3 bezierStart = lineStarting;
-						//@reference Tiffany Fisher
-						for (int k = 1; k <= 10; k++) {
-							Vector3 lineEnd = GetPoint (bezierStart, movements [i].endWaypoint.transform.position, movements [i].curveWaypoint.transform.position, k / 10f);
-							Gizmos.DrawLine (lineStarting, lineEnd);
-							lineStarting = lineEnd;
-						}
-					} else {
-						Debug.Log ("Missing Element in " + movements [i].moveType + " waypoint");
+        Vector3 lineStarting = startPos;
+        if (movements != null)
+        {
+            for (int i = 0; i < movements.Count; i++)
+            {
+                if (movements[i].moveType == MovementTypes.BEZIER)
+                {
+                    Gizmos.color = Color.cyan;
+                }
+                if (movements[i].moveType == MovementTypes.STRAIGHT)
+                {
+                    Gizmos.color = Color.green;
+                }
+                if (i == movementFocus - 1 || i == movementFocus + 1)
+                {
+                    Gizmos.color = Color.yellow;
+                }
+                if (i == movementFocus)
+                {
+                    Gizmos.color = Color.magenta;
+                }
+                switch (movements[i].moveType)
+                {
+                    case MovementTypes.STRAIGHT:
+                        if (movements[i].endWaypoint != null)
+                        {
+                            //Gizmos.color = Color.blue;
+                            Gizmos.DrawLine(lineStarting, movements[i].endWaypoint.transform.position);
+                            lineStarting = movements[i].endWaypoint.transform.position;
+                        }
+                        else
+                        {
+                            Debug.Log("Missing Element in " + movements[i].moveType + " waypoint");
+                        }
+                        break;
+                    case MovementTypes.BEZIER:
+                        if (movements[i].endWaypoint != null && movements[i].curveWaypoint != null)
+                        {
+                            //Gizmos.color = Color.green;
+                            Vector3 bezierStart = lineStarting;
+                            //@reference Tiffany Fisher
+                            for (int k = 1; k <= 10; k++)
+                            {
+                                Vector3 lineEnd = GetPoint(bezierStart, movements[i].endWaypoint.transform.position, movements[i].curveWaypoint.transform.position, k / 10f);
+                                Gizmos.DrawLine(lineStarting, lineEnd);
+                                lineStarting = lineEnd;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Missing Element in " + movements[i].moveType + " waypoint");
 
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 }
+

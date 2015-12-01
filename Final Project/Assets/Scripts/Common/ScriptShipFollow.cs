@@ -6,10 +6,10 @@ public class ScriptShipFollow : MonoBehaviour
 {
 
     #region Object Access
-    GameObject track1;
-    GameObject track2;
-    GameObject track3;
-    GameObject myParent;
+    public GameObject track1;
+    public GameObject track2;
+    public GameObject track3;
+    public GameObject myParent;
     Text speedText;
     #endregion
 
@@ -34,9 +34,12 @@ public class ScriptShipFollow : MonoBehaviour
     // Use this for initialization
 	void Start () {
         myParent = this.transform.parent.gameObject;
-        track1 = GameObject.FindGameObjectWithTag("Track1");
-        track2 = GameObject.FindGameObjectWithTag("Track2");
-		track3 = GameObject.FindGameObjectWithTag("Track3");
+        //track1 = GameObject.FindGameObjectWithTag("Track1");
+        //track2 = GameObject.FindGameObjectWithTag("Track2");
+		//track3 = GameObject.FindGameObjectWithTag("Track3");
+        track1 = myParent.transform.GetChild(3).gameObject;
+        track2 = myParent.transform.GetChild(4).gameObject;
+        track3 = myParent.transform.GetChild(5).gameObject;
         speedText = GameObject.Find("SpeedText").GetComponent<Text>();
         gameOverText = GameObject.Find("GameOverText");
 	}
@@ -71,6 +74,11 @@ public class ScriptShipFollow : MonoBehaviour
         if(speed > MAX_SPEED)
         {
             speed = MAX_SPEED;
+        }
+
+        if(blackoutTracker < 0)
+        {
+            blackoutTracker = 0.0f;
         }
 
         //Update

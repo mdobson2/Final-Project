@@ -33,3 +33,10 @@ public enum UpgradeTypes
     BLACKOUTRESISTANCE,
     BLACKOUTRECOVERY
 }
+
+public enum AITypes
+{
+    BAD,
+    GOOD,
+    OKAY
+}
