@@ -20,6 +20,7 @@ public class LookChainWindowEditor : EditorWindow {
 
     public static void Init(int FacingFocus, ScriptEngine Engine)
     {
+        Debug.Log("Received facing focus" + FacingFocus);
         LookChainWindowEditor window = (LookChainWindowEditor)EditorWindow.GetWindow(typeof(LookChainWindowEditor));
         facingFocus = FacingFocus;
         Debug.Log(facingFocus);
@@ -39,9 +40,9 @@ public class LookChainWindowEditor : EditorWindow {
         rotationSpeed = engine.facings[facingFocus].rotationSpeed;
         targets = engine.facings[facingFocus].targets;
 
-        Debug.Log(lockTimes.Length);
-        Debug.Log(rotationSpeed.Length);
-        Debug.Log(targets.Length);
+        //Debug.Log(lockTimes.Length);
+        //Debug.Log(rotationSpeed.Length);
+        //Debug.Log(targets.Length);
 
         //minimum size for the display
         minSize = new Vector2(250, 300);

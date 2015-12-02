@@ -15,6 +15,7 @@ public class EngineWindowEditor : EditorWindow {
     List<ScriptFacings> facings;
     ScriptEngine[] engines;
     ScriptEngine engine;
+    //LookChainWindowEditor lookChainEditor;
     int currentEngine;
 
 	//TIFF ADDED
@@ -1230,6 +1231,7 @@ public class EngineWindowEditor : EditorWindow {
                 windowDisplay = new Rect(offsetX, offsetY, ELEMENT_DISPLAY, DISPLAY_HEIGHT);
                 if (GUI.Button(windowDisplay, "Edit Targets"))
                 {
+                    Debug.Log("My Facing Focus" + facingFocus);
                     RecordData();
                     LookChainWindowEditor.Init(facingFocus, engine);
                 }
