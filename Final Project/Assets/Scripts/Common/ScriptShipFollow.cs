@@ -46,6 +46,7 @@ public class ScriptShipFollow : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        // get my input
         if(!gameOver)
         {
             GetInput();
@@ -190,7 +191,7 @@ public class ScriptShipFollow : MonoBehaviour
         else
         {
             //Debug.Log("Angle greater than 90");
-            angleSpeed = Mathf.RoundToInt((MAX_SPEED / 4) + ((180 - angle) / 180) * (MAX_SPEED / 4));
+            angleSpeed = Mathf.RoundToInt(((MAX_SPEED / 4) * 3) + ((180 - angle) / 180) * (MAX_SPEED / 4));
             //Debug.Log("Haven't done angles greater than 90 degrees yet");
             //Debug.Log("Angle Speed: " + angleSpeed);
             Debug.Log("~Angle greater than 90~\n" +

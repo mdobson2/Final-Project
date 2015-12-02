@@ -91,6 +91,11 @@ public class ScriptEngine : MonoBehaviour
 		}
 	}
 
+    void SetTimeline(List<ScriptMovements> moveList)
+    {
+        movements = moveList;
+    }
+
     void Update()
     {
         //if (Input.GetKey(KeyCode.W))
@@ -136,7 +141,7 @@ public class ScriptEngine : MonoBehaviour
                 case MovementTypes.STRAIGHT:
                     EndMarker = movements[i].endWaypoint.transform;
                     //Debug.Log("Calling movement coroutine");
-                    shipScript.BlackOutSet(0f);
+                    //shipScript.BlackOutSet(0f);
                     yield return StartCoroutine(StraightMovement(movements[i].endWaypoint.transform));
                     startPosition = movements[i].endWaypoint.transform.position;
                     break;
@@ -149,7 +154,7 @@ public class ScriptEngine : MonoBehaviour
                     angle = Mathf.Rad2Deg * Mathf.Acos(angle);
                     angle *= 2;
                     Debug.Log("Angle: " + angle);
-                    shipScript.BlackOutSet(angle);
+                    //shipScript.BlackOutSet(angle);
                     yield return StartCoroutine(BezierMovement(movements[i].endWaypoint.transform.position, movements[i].curveWaypoint.transform.position));
                     startPosition = movements[i].endWaypoint.transform.position;
                     break;
@@ -183,7 +188,7 @@ public class ScriptEngine : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
             //transform.rotation = Quaternion.Lerp(tempFacing, facing, rotationSpeed * Time.deltaTime);
             distRemaining = Vector3.Distance(transform.position, EndMarker.position);
-            transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * shipScript.speed);
+            //transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * shipScript.speed);
             yield return null;
         }
         //Debug.Log("Finished while loop");
@@ -206,7 +211,7 @@ public class ScriptEngine : MonoBehaviour
             curveLength += Vector3.Distance(startPos, lineEnd);
             startPos = lineEnd;
         }
-        float curveTime = curveLength / shipScript.MAX_SPEED;
+        //float curveTime = curveLength / shipScript.MAX_SPEED;
         float acceleration = Time.deltaTime * (shipScript.speed / shipScript.MAX_SPEED);
         //Debug.Log(acceleration);
         Vector3 lastPos = transform.position;
@@ -367,7 +372,7 @@ public class ScriptEngine : MonoBehaviour
 						Gizmos.DrawLine (lineStarting, movements [i].endWaypoint.transform.position);
 						lineStarting = movements [i].endWaypoint.transform.position;
 					} else {
-						Debug.Log ("Missing Element in " + movements [i].moveType + " waypoint");
+						//Debug.Log ("Missing Element in " + movements [i].moveType + " waypoint");
 					}
 					break;
 				case MovementTypes.BEZIER:
@@ -381,7 +386,7 @@ public class ScriptEngine : MonoBehaviour
 							lineStarting = lineEnd;
 						}
 					} else {
-						Debug.Log ("Missing Element in " + movements [i].moveType + " waypoint");
+						//Debug.Log ("Missing Element in " + movements [i].moveType + " waypoint");
 
 					}
 					break;

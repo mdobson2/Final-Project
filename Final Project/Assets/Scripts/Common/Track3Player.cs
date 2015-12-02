@@ -55,6 +55,7 @@ public class Track3Player : MonoBehaviour
     public ScriptScreenFade fadeScript;
     public ScriptSplatter splatterScript;
     public ScriptShipFollow shipScript;
+    public EnemyAIController AIScript;
     public GameObject myParent;
     #endregion
 
@@ -62,7 +63,14 @@ public class Track3Player : MonoBehaviour
     {
         //shipScript = GameObject.FindGameObjectWithTag("Ship").GetComponent<ScriptShipFollow>();
         myParent = this.transform.parent.gameObject;
-        shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
+        if(myParent.name == "Player")
+        {
+            shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
+        }
+        else
+        {
+            AIScript = myParent.transform.GetChild(2).GetComponent<EnemyAIController>();
+        }
         tigerShark = GameObject.Find("SPACESHIP 1");
         particalSystem1 = GameObject.Find("ParticalSystem1");
         particalSystem2 = GameObject.Find("ParticalSystem2");
@@ -137,7 +145,14 @@ public class Track3Player : MonoBehaviour
                 case MovementTypes.STRAIGHT:
                     EndMarker = movements[i].endWaypoint.transform;
                     //Debug.Log("Calling movement coroutine");
-                    shipScript.BlackOutSet(0f);
+                    if(shipScript != null)
+                    {
+                        shipScript.BlackOutSet(0f);
+                    }
+                    else
+                    {
+                        AIScript.BlackOutSet(0f);
+                    }
                     yield return StartCoroutine(StraightMovement(movements[i].endWaypoint.transform));
                     startPosition = movements[i].endWaypoint.transform.position;
                     break;
@@ -150,7 +165,14 @@ public class Track3Player : MonoBehaviour
                     angle = Mathf.Rad2Deg * Mathf.Acos(angle);
                     angle *= 2;
                     Debug.Log("Angle: " + angle);
-                    shipScript.BlackOutSet(angle);
+                    if(shipScript != null)
+                    {
+                        shipScript.BlackOutSet(angle);
+                    }
+                    else
+                    {
+                        AIScript.BlackOutSet(angle);
+                    }
                     yield return StartCoroutine(BezierMovement(movements[i].endWaypoint.transform.position, movements[i].curveWaypoint.transform.position));
                     startPosition = movements[i].endWaypoint.transform.position;
                     break;
@@ -184,7 +206,14 @@ public class Track3Player : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, rotationSpeed);
             //transform.rotation = Quaternion.Lerp(tempFacing, facing, rotationSpeed * Time.deltaTime);
             distRemaining = Vector3.Distance(transform.position, EndMarker.position);
-            transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * shipScript.speed);
+            if(shipScript != null)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * shipScript.speed);
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, EndMarker.position, Time.deltaTime * AIScript.speed);
+            }
             yield return null;
         }
         //Debug.Log("Finished while loop");
@@ -207,8 +236,16 @@ public class Track3Player : MonoBehaviour
             curveLength += Vector3.Distance(startPos, lineEnd);
             startPos = lineEnd;
         }
-        float curveTime = curveLength / shipScript.MAX_SPEED;
-        float acceleration = Time.deltaTime * (shipScript.speed / shipScript.MAX_SPEED);
+        //vlakfloat curveTime = curveLength / shipScript.MAX_SPEED;
+        float acceleration = 0.0f;
+        if(shipScript != null)
+        {
+            acceleration = Time.deltaTime * (shipScript.speed / shipScript.MAX_SPEED);
+        }
+        else
+        {
+            acceleration = Time.deltaTime * (AIScript.speed / AIScript.MAX_SPEED);
+        }
         //Debug.Log(acceleration);
         Vector3 lastPos = transform.position;
         Vector3 lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .01f) - lastPos;
@@ -227,7 +264,14 @@ public class Track3Player : MonoBehaviour
             //Debug.DrawLine(transform.position, GetPoint(startCurve, target, curve, curveTime * acceleration), Color.red, 10f);
             //transform.position += GetPoint(startCurve, target, curve, curveTime * acceleration) - lastPos;
             transform.position += GetPoint(startCurve, target, curve, acceleration) - lastPos;
-            acceleration += Time.deltaTime * (shipScript.speed / shipScript.MAX_SPEED);
+            if(shipScript != null)
+            {
+                acceleration += Time.deltaTime * (shipScript.speed / shipScript.MAX_SPEED);
+            }
+            else
+            {
+                acceleration += Time.deltaTime * (AIScript.speed / AIScript.MAX_SPEED);
+            }
             lookAtTarget = GetPoint(startCurve, target, curve, acceleration + .001f) - lastPos;
             newDir = Vector3.RotateTowards(transform.forward, lookAtTarget, rotationSpeed, 0.0f);
             //Debug.Log(acceleration);

@@ -63,7 +63,7 @@ public class EngineWindowEditor : EditorWindow {
 
         startPoint = GameObject.Find("Start");
 
-		Debug.Log (trackNum);
+		//Debug.Log (trackNum);
 
         if (trackNum == 1)
             engine = GameObject.FindWithTag("Track1").GetComponent<Track1>();
@@ -1815,14 +1815,14 @@ public class EngineWindowEditor : EditorWindow {
 
     void RecordData()
     {
-        Debug.Log("Recording Data, Please Wait");
+        //Debug.Log("Recording Data, Please Wait");
         engine.movements = movements;
         engine.effects = effects;
         engine.facings = facings;
         engine.movementFocus = movementFocus;
         engine.effectsFocus = effectFocus;
         engine.facingFocus = facingFocus;
-        Debug.Log("Recording Complete");
+        //Debug.Log("Recording Complete");
 //		Debug.Log ("~~~LOST FOCUS MOVEMENT COUNT~~~\n" +
 //			"\tENGINE: " + engine.movements.Count +
 //		           "\t\tWINDOW: " + movements.Count);
