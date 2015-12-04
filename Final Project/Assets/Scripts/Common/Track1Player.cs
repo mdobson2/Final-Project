@@ -65,11 +65,12 @@ public class Track1Player : MonoBehaviour
         myParent = this.transform.parent.gameObject;
         if (myParent.name == "Player")
         {
-            shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
+            //shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
+			shipScript = myParent.transform.GetChild (0).GetChild(1).GetComponent<ScriptShipFollow>();
         }
         else
         {
-            AIScript = myParent.transform.GetChild(2).GetComponent<EnemyAIController>();
+            AIScript = myParent.transform.GetChild(1).GetComponent<EnemyAIController>();
         }
         tigerShark = GameObject.Find("SPACESHIP 1");
         particalSystem1 = GameObject.Find("ParticalSystem1");

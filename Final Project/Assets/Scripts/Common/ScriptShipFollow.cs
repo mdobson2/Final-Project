@@ -28,20 +28,23 @@ public class ScriptShipFollow : MonoBehaviour
     bool gameOver = false;
     GameObject gameOverText;
 
+	public Animator animator;
+
     public bool testMode = false;
     #endregion
 
     // Use this for initialization
 	void Start () {
-        myParent = this.transform.parent.gameObject;
+        myParent = this.transform.parent.transform.parent.gameObject;
         //track1 = GameObject.FindGameObjectWithTag("Track1");
         //track2 = GameObject.FindGameObjectWithTag("Track2");
 		//track3 = GameObject.FindGameObjectWithTag("Track3");
-        track1 = myParent.transform.GetChild(3).gameObject;
-        track2 = myParent.transform.GetChild(4).gameObject;
-        track3 = myParent.transform.GetChild(5).gameObject;
+        track1 = myParent.transform.GetChild(1).gameObject;
+        track2 = myParent.transform.GetChild(2).gameObject;
+        track3 = myParent.transform.GetChild(3).gameObject;
         speedText = GameObject.Find("SpeedText").GetComponent<Text>();
         gameOverText = GameObject.Find("GameOverText");
+		animator = GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -134,12 +137,24 @@ public class ScriptShipFollow : MonoBehaviour
     }
     void BlackoutUpdate()
     {
-        if(speed > angleSpeed)
-        {
-            //float blackoutIncrease = 0.0f;
-            //blackoutIncrease = speed - angleSpeed;
-            blackoutTracker += blackoutIncrease;
-        }
+        if (speed > angleSpeed) {
+			//float blackoutIncrease = 0.0f;
+			//blackoutIncrease = speed - angleSpeed;
+
+			blackoutTracker += blackoutIncrease;
+			//animator.SetTrigger(0);
+			//speed -= 10;
+			//animator.Play("ShipSwingAnimation");
+			if(!animator.GetBool("SpinOut"))
+			{
+				speed -= 10;
+				animator.SetBool ("SpinOut", true);
+			}
+
+		} else 
+		{
+			animator.SetBool("SpinOut", false);
+		}
         blackoutTracker -= blackoutDecrease;
         if(blackoutTracker > MAX_BLACKOUT)
         {

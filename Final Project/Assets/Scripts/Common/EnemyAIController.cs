@@ -31,9 +31,9 @@ public class EnemyAIController : MonoBehaviour
     // Use this for initialization
 	void Start () {
         myParent = this.transform.parent.gameObject;
-        track1 = myParent.transform.GetChild(3).gameObject;
-        track2 = myParent.transform.GetChild(4).gameObject;
-        track3 = myParent.transform.GetChild(5).gameObject;
+        track1 = myParent.transform.GetChild(2).gameObject;
+        track2 = myParent.transform.GetChild(3).gameObject;
+        track3 = myParent.transform.GetChild(4).gameObject;
 	    
 	}
 	
