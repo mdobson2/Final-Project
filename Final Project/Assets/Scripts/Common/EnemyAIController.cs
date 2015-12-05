@@ -15,8 +15,8 @@ public class EnemyAIController : MonoBehaviour
     #region movement variables
     public int activeTrack = 2;
     public float resistance = 1f;
-    public float acceleration = 6f;
-    public float deceleration = 10f;
+    public float acceleration = .25f;
+    public float deceleration = .5f;
     public float MAX_SPEED = 200;
     public float speed = 0.0f;
     public int angleSpeed = 0;

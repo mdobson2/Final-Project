@@ -65,7 +65,8 @@ public class Track2Player : MonoBehaviour
         myParent = this.transform.parent.gameObject;
         if (myParent.name == "Player")
         {
-            shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
+            //shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
+            shipScript = myParent.transform.GetChild(0).GetChild(1).GetComponent<ScriptShipFollow>();
         }
         else
         {

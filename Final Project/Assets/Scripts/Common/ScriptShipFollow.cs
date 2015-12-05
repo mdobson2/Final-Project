@@ -16,8 +16,8 @@ public class ScriptShipFollow : MonoBehaviour
     #region Local Variables
     public int activeTrack = 1;
     public float resistance = 1f;
-    public float acceleration = 6f;
-    public float deceleration = 10f;
+    public float acceleration = .25f;
+    public float deceleration = .5f;
     public float MAX_SPEED = 200;
     public float speed = 0.0f;
     public int angleSpeed = 0;
@@ -25,6 +25,7 @@ public class ScriptShipFollow : MonoBehaviour
     public float MAX_BLACKOUT = 200;
     public float blackoutIncrease = 0.5f;
     public float blackoutDecrease = 0.1f;
+    public float swingSlower = 2f;
     bool gameOver = false;
     GameObject gameOverText;
 
@@ -57,18 +58,18 @@ public class ScriptShipFollow : MonoBehaviour
         gameOverText.SetActive(gameOver);
 
         //small resistance
-        if(!testMode)
-        {
-            if (speed > resistance)
-            {
-                speed -= resistance;
-            }
+        //if(!testMode)
+        //{
+        //    if (speed > resistance)
+        //    {
+        //        speed -= resistance;
+        //    }
 
-            if (speed <= resistance)
-            {
-                speed = 0.0f;
-            }
-        }
+        //    if (speed <= resistance)
+        //    {
+        //        speed = 0.0f;
+        //    }
+        //}
 
         //fail safe
         if(speed < 0)
@@ -145,9 +146,9 @@ public class ScriptShipFollow : MonoBehaviour
 			//animator.SetTrigger(0);
 			//speed -= 10;
 			//animator.Play("ShipSwingAnimation");
+            speed -= swingSlower;
 			if(!animator.GetBool("SpinOut"))
 			{
-				speed -= 10;
 				animator.SetBool ("SpinOut", true);
 			}
 
