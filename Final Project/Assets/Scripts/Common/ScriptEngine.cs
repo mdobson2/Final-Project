@@ -70,7 +70,7 @@ public class ScriptEngine : MonoBehaviour
 
     void Start()
     {
-		PrintInformation ();
+		//PrintInformation ();
         StartCoroutine(movementEngine());
         StartCoroutine(EffectsEngine());
         StartCoroutine(FacingEngine());

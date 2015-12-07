@@ -8,6 +8,7 @@ TagManager:
   - Track2
   - Track3
   - Ship
+  - Enemy
   layers:
   - Default
   - TransparentFX

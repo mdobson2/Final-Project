@@ -63,14 +63,14 @@ public class Track3Player : MonoBehaviour
     {
         //shipScript = GameObject.FindGameObjectWithTag("Ship").GetComponent<ScriptShipFollow>();
         myParent = this.transform.parent.gameObject;
-        if(myParent.name == "Player")
+        if(myParent.tag == "Player")
         {
             //shipScript = myParent.transform.GetChild(2).GetComponent<ScriptShipFollow>();
             shipScript = myParent.transform.GetChild(0).GetChild(1).GetComponent<ScriptShipFollow>();
         }
         else
         {
-            AIScript = myParent.transform.GetChild(2).GetComponent<EnemyAIController>();
+            AIScript = myParent.transform.FindChild("siar1x").GetComponent<EnemyAIController>();
         }
         tigerShark = GameObject.Find("SPACESHIP 1");
         particalSystem1 = GameObject.Find("ParticalSystem1");
@@ -80,7 +80,7 @@ public class Track3Player : MonoBehaviour
 
     void Start()
     {
-        PrintInformation();
+        //PrintInformation();
         StartCoroutine(movementEngine());
         StartCoroutine(EffectsEngine());
         StartCoroutine(FacingEngine());
@@ -146,7 +146,7 @@ public class Track3Player : MonoBehaviour
                 case MovementTypes.STRAIGHT:
                     EndMarker = movements[i].endWaypoint.transform;
                     //Debug.Log("Calling movement coroutine");
-                    if(shipScript != null)
+                    if (myParent.tag == "Player")
                     {
                         shipScript.BlackOutSet(0f);
                     }
@@ -165,7 +165,7 @@ public class Track3Player : MonoBehaviour
                     float angle = ((b * b) + (c * c) - (a * a)) / (2 * b * c);
                     angle = Mathf.Rad2Deg * Mathf.Acos(angle);
                     angle *= 2;
-                    Debug.Log("Angle: " + angle);
+                    //Debug.Log("Angle: " + angle);
                     if(shipScript != null)
                     {
                         shipScript.BlackOutSet(angle);
@@ -391,6 +391,8 @@ public class Track3Player : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, new Vector3(1, 1, 1));
         Vector3 lineStarting = startPos;
         if (movements != null)
         {

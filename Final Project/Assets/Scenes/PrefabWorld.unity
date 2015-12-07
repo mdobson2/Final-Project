@@ -87,7 +87,7 @@ NavMeshSettings:
 --- !u!127 &5
 LevelGameManager:
   m_ObjectHideFlags: 0
---- !u!1001 &409207649
+--- !u!1001 &418009731
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -125,6 +125,30 @@ Prefab:
     - target: {fileID: 400328, guid: 48aa8356993bc624ebfa615067c25bb7, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400308, guid: 48aa8356993bc624ebfa615067c25bb7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 414384, guid: 48aa8356993bc624ebfa615067c25bb7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 439442, guid: 48aa8356993bc624ebfa615067c25bb7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456448, guid: 48aa8356993bc624ebfa615067c25bb7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 450306, guid: 48aa8356993bc624ebfa615067c25bb7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469268, guid: 48aa8356993bc624ebfa615067c25bb7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 48aa8356993bc624ebfa615067c25bb7, type: 2}

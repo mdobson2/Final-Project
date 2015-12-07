@@ -167,6 +167,11 @@ public class EnemyAIController : MonoBehaviour
             //Debug.Log("Max speed available");
             angleSpeed = Mathf.RoundToInt(MAX_SPEED + 5f);
         }
+        else if (angle < 30)
+        {
+            //Debug.Log("Max speed available");
+            angleSpeed = Mathf.RoundToInt(MAX_SPEED + 5f);
+        }
         else if (angle < 90)
         {
             //Debug.Log("Angle less than 90");
