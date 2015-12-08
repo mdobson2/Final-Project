@@ -33,7 +33,7 @@ public class UpgradeWindow : EditorWindow {
         upgradeValue = EditorGUILayout.FloatField(upgradeValue, "Upgrade Value");
         if(GUILayout.Button("Build Text"))
         {
-            if(upgradeName == null || upgradeName == "")
+            if(upgradeName == null || upgradeName == string.Empty)
             {
                 upgradeName = "UpgradeBaseName";
             }

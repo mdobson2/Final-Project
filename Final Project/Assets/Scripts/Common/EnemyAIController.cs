@@ -43,6 +43,7 @@ public class EnemyAIController : MonoBehaviour
     public float wantedSpeed = 0;
     public AITypes AIDifficulty;
     bool wantToChangetrack = false;
+    bool finishedGame = false;
     #endregion
 
     void Awake()
@@ -94,6 +95,11 @@ public class EnemyAIController : MonoBehaviour
         if(blackoutTracker < 0)
         {
             blackoutTracker = 0;
+        }
+
+        if(finishedGame)
+        {
+            wantedSpeed = MAX_SPEED / 3;
         }
 
         UpdateCollisions();
@@ -312,6 +318,10 @@ public class EnemyAIController : MonoBehaviour
     public void AILapComplete()
     {
         lapsComplete++;
+        if(lapsComplete >= numLaps)
+        {
+            finishedGame = true;
+        }
     }
 
     public void UpdateTrack()

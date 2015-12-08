@@ -218,6 +218,10 @@ public class Track1Player : MonoBehaviour
                 {
                     shipScript.LapComplete();
                 }
+                else
+                {
+                    AIScript.AILapComplete();
+                }
             }
 
             if (numHits > infiniteLoopCatcher)

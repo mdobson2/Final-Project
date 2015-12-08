@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.IO;
+using System.Text;
 
 public class ScriptShipFollow : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class ScriptShipFollow : MonoBehaviour
     Text speedText;
     Text lapsText;
     Text coinsText;
+    GameObject finishedText;
+    GameObject gameOverText;
+    public Animator animator;
     #endregion
 
     #region Local Variables
@@ -44,11 +49,8 @@ public class ScriptShipFollow : MonoBehaviour
     bool shipBehind = false;
     bool shipAhead = false;
     bool shipCollision = false;
+    bool finishedGame = false;
     public int coinsCollected = 0;
-    GameObject gameOverText;
-
-	public Animator animator;
-
     public bool testMode = false;
     #endregion
 
@@ -74,7 +76,9 @@ public class ScriptShipFollow : MonoBehaviour
         gameOverText = GameObject.Find("GameOverText");
         lapsText = GameObject.Find("Laps Text").GetComponent<Text>();
         coinsText = GameObject.Find("Coins Text").GetComponent<Text>();
+        finishedText = GameObject.Find("Finish Text");
 		animator = GetComponent<Animator> ();
+        finishedText.SetActive(finishedGame);
 	}
 	
 	// Update is called once per frame
@@ -134,7 +138,7 @@ public class ScriptShipFollow : MonoBehaviour
     void GetInput()
     {
         //input for switching tracks
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             switch(activeTrack)
             {
@@ -154,7 +158,7 @@ public class ScriptShipFollow : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             switch(activeTrack)
             {
@@ -174,14 +178,14 @@ public class ScriptShipFollow : MonoBehaviour
         }
 
         //input for acceleration
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             if (speed < MAX_SPEED)
             {
                 speed += acceleration;
             }
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             if (speed > 0)
             {
@@ -387,5 +391,43 @@ public class ScriptShipFollow : MonoBehaviour
     public void LapComplete()
     {
         lapsComplete++;
+        if(lapsComplete >= numLaps)
+        {
+            finishedGame = true;
+            finishedText.SetActive(finishedGame);
+            string datapath = (Application.dataPath.ToString() + "/PlayerInfo");
+            string fileName = "/PlayerData.txt";
+            string line;
+            int numCoins = 0;
+            try
+            {
+                using (StreamReader theReader = new StreamReader(datapath + fileName))
+                {
+                    do
+                    {
+                        line = theReader.ReadLine();
+                        if (line != null)
+                        {
+                            string[] entries = line.Split(',');
+                            if (entries.Length > 0)
+                            {
+                                foreach (string number in entries)
+                                {
+                                    numCoins = int.Parse(number);
+                                }
+                            }
+                        }
+                    } while (line != null);
+                }
+                using (StreamWriter theWriter = new StreamWriter(datapath + fileName))
+                {
+                    theWriter.WriteLine((numCoins + coinsCollected).ToString());
+                }
+            }
+            catch(UnityException e)
+            {
+                Debug.LogError(e);
+            }
+        }
     }
 }
