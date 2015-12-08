@@ -29,9 +29,7 @@ public enum UpgradeTypes
     ACCELERATION,
     BRAKES,
     MAXSPEED,
-    MAXBLACKOUT,
-    BLACKOUTRESISTANCE,
-    BLACKOUTRECOVERY
+    MAXBLACKOUT
 }
 
 public enum AITypes
