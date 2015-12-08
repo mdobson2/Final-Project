@@ -101,35 +101,67 @@ public class Track1Player : MonoBehaviour
         }
     }
 
-    void Update()
+    //void Update()
+    //{
+    //    //if (Input.GetKey(KeyCode.W))
+    //    //{
+    //    //    if (speed < MAX_SPEED)
+    //    //    {
+    //    //        speed += acceleration;
+    //    //    }
+    //    //}
+    //    //if (Input.GetKey(KeyCode.S))
+    //    //{
+    //    //    if (speed > 0)
+    //    //    {
+    //    //        speed -= deceleration;
+    //    //    }
+    //    //}
+
+    //    //if (speed > resistance)
+    //    //{
+    //    //    speed -= resistance;
+    //    //}
+
+    //    //if (speed < resistance)
+    //    //{
+    //    //    speed = 0.0f;
+    //    //}
+
+    //    //particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
+    //    //particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
+    //}
+
+    //void OnTriggerStay(Collider other)
+    //{
+    //    shipScript.DeactivateTrack(other, this.gameObject);
+    //}
+
+    void OnTriggerEnter(Collider other)
     {
-        //if (Input.GetKey(KeyCode.W))
-        //{
-        //    if (speed < MAX_SPEED)
-        //    {
-        //        speed += acceleration;
-        //    }
-        //}
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    if (speed > 0)
-        //    {
-        //        speed -= deceleration;
-        //    }
-        //}
+        if (other.gameObject.tag == "Ship")
+        {
+            if (myParent.tag == "Player")
+            {
+                shipScript.ChangeTrackStatus(this.gameObject, false);
+            }
+            else
+            {
+                AIScript.AIChangeTrackStatus(this.gameObject, false);
+            }
+        }
+    }
 
-        //if (speed > resistance)
-        //{
-        //    speed -= resistance;
-        //}
-
-        //if (speed < resistance)
-        //{
-        //    speed = 0.0f;
-        //}
-
-        //particalSystem1.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
-        //particalSystem2.GetComponent<ParticleSystem>().startSpeed = speed * .05f;
+    void OnTriggerExit()
+    {
+        if (myParent.tag == "Player")
+        {
+            shipScript.ChangeTrackStatus(this.gameObject, true);
+        }
+        else
+        {
+            AIScript.AIChangeTrackStatus(this.gameObject, true);
+        }
     }
 
     #region Movement Engine

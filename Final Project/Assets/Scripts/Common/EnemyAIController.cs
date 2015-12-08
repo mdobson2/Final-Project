@@ -7,9 +7,16 @@ public class EnemyAIController : MonoBehaviour
 
     #region object Access
     public GameObject track1;
+    public GameObject track1Front;
+    public GameObject track1Back;
     public GameObject track2;
+    public GameObject track2Front;
+    public GameObject track2Back;
     public GameObject track3;
+    public GameObject track3Front;
+    public GameObject track3Back;
     public GameObject myParent;
+    public GameObject myShip;
     #endregion
 
     #region movement variables
@@ -24,18 +31,34 @@ public class EnemyAIController : MonoBehaviour
     public float MAX_BLACKOUT = 200;
     public float blackoutIncrease = 0.5f;
     public float blackoutDecrease = 0.1f;
+    public int numLaps = 3;
+    public int lapsComplete = 0;
+    public bool canSwitch1 = true;
+    public bool canSwitch2 = true;
+    public bool canSwitch3 = true;
+    public bool shipAhead = false;
+    public bool shipBehind = false;
+    public bool shipCollision = false;
     bool gameOver = false;
     public float wantedSpeed = 0;
+    public AITypes AIDifficulty;
+    bool wantToChangetrack = false;
     #endregion
 
-    // Use this for initialization
-	void Start () {
+    void Awake()
+    {
         myParent = this.transform.parent.gameObject;
-        track1 = myParent.transform.GetChild(2).gameObject;
-        track2 = myParent.transform.GetChild(3).gameObject;
-        track3 = myParent.transform.GetChild(4).gameObject;
-	    
-	}
+        myShip = this.transform.FindChild("ShipCollider").gameObject;
+        track1 = myParent.transform.FindChild("Track1").gameObject;
+        track2 = myParent.transform.FindChild("Track2").gameObject;
+        track3 = myParent.transform.FindChild("Track3").gameObject;
+        track1Front = track1.transform.FindChild("Track1 Front").gameObject;
+        track1Back = track1.transform.FindChild("Track1 Back").gameObject;
+        track2Front = track2.transform.FindChild("Track2 Front").gameObject;
+        track2Back = track2.transform.FindChild("Track2 Back").gameObject;
+        track3Front = track3.transform.FindChild("Track3 Front").gameObject;
+        track3Back = track3.transform.FindChild("Track3 Back").gameObject;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -73,6 +96,8 @@ public class EnemyAIController : MonoBehaviour
             blackoutTracker = 0;
         }
 
+        UpdateCollisions();
+        UpdateTrack();
         UpdatePosition();
         BlackoutUpdate();
 	}
@@ -188,6 +213,143 @@ public class EnemyAIController : MonoBehaviour
             //Debug.Log("Angle Speed: " + angleSpeed);
             //Debug.Log("~Angle greater than 90~\n" +
             //    "\tAngle: " + angle + "\t\t Angle Speed: " + angleSpeed);
+        }
+    }
+
+    public void AIShipCollision(bool status)
+    {
+        //if I am hitting another ship slow down
+        shipCollision = status;
+    }
+
+    public void AIChangeTrackStatus(GameObject obj, bool status)
+    {
+        //check the obj that is being hit and turn that lane off
+        switch(obj.transform.name)
+        {
+            case "Track1":
+                canSwitch1 = status;
+                break;
+            case "Track2":
+                canSwitch2 = status;
+                break;
+            case "Track3":
+                canSwitch3 = status;
+                break;
+        }
+    }
+
+    public void AIDetermineCollision(Collider other, GameObject obj, bool status)
+    {
+        //Debug.Log("Collision Detected");
+        //if the collider object is a ship
+        if(other.gameObject.tag == "Ship")
+        {
+            //Debug.Log("Collision is with a ship");
+            //do a switch on the track that I am on
+            switch(activeTrack)
+            {
+                //if the object is the front or back object of my current track then take action
+                case 1:
+                    if(obj == track1Back)
+                    {
+                        //Debug.Log("loosing blackout from track 1");
+                        shipBehind = status;
+                    }
+                    if(obj == track1Front)
+                    {
+                        //Debug.Log("Gaining blackout from track 1");
+                        shipAhead = status;
+                        wantToChangetrack = true;
+                    }
+                    break;
+                case 2:
+                    if(obj == track2Back)
+                    {
+                        //Debug.Log("loosing blackout from track 2");
+                        shipBehind = status;
+                    }
+                    if(obj == track2Front)
+                    {
+                        //Debug.Log("Gaining blackout from track 2");
+                        shipAhead = status;
+                        wantToChangetrack = true;
+                    }
+                    break;
+                case 3:
+                    if(obj == track3Back)
+                    {
+                        //Debug.Log("loosing blackout from track 3");
+                        shipBehind = status;
+                    }
+                    if(obj == track3Front)
+                    {
+                        //Debug.Log("Gaining blackout from track 3");
+                        shipAhead = status;
+                        wantToChangetrack = true;
+                    }
+                    break;
+            }
+        }
+    }
+
+    void UpdateCollisions()
+    {
+        if (shipBehind)
+        {
+            blackoutTracker -= blackoutDecrease * 2;
+        }
+        if (shipAhead)
+        {
+            blackoutTracker += blackoutIncrease;
+        }
+        if (shipAhead && shipCollision)
+        {
+            speed -= 3;
+        }
+    }
+
+    public void AILapComplete()
+    {
+        lapsComplete++;
+    }
+
+    public void UpdateTrack()
+    {
+        if(AIDifficulty == AITypes.GOOD)
+        {
+            if(wantToChangetrack)
+            {
+                switch(activeTrack)
+                {
+                    case 1:
+                        if(canSwitch2)
+                        {
+                            activeTrack = 2;
+                            wantToChangetrack = false;
+                        }
+                        else if(canSwitch3)
+                        {
+                            activeTrack = 3;
+                            wantToChangetrack = false;
+                        }
+                        break;
+                    case 2:
+                        if(canSwitch1)
+                        {
+                            activeTrack = 1;
+                            wantToChangetrack = false;
+                        }
+                        break;
+                    case 3:
+                        if(canSwitch1)
+                        {
+                            activeTrack = 1;
+                            wantToChangetrack = false;
+                        }
+                        break;
+                }
+            }
         }
     }
 }

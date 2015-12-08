@@ -19,15 +19,28 @@ public class ScriptCollisionChecker : MonoBehaviour {
             AIScript = myParent.transform.FindChild("siar1x").GetComponent<EnemyAIController>();
         }
 	}
-	
 
-
-    void OnTriggerStay(Collider collider)
+    void OnTriggerEnter(Collider collider)
     {
-        //Debug.Log("Trigger Entered");
+        if (myParent.tag == "Player")
+        {
+            shipScript.DetermineCollision(collider, this.gameObject, true);
+        }
+        else
+        {
+            AIScript.AIDetermineCollision(collider, this.gameObject, true);
+        }
+    }
+
+    void OnTriggerExit(Collider collider)
+    {
         if(myParent.tag == "Player")
         {
-            shipScript.DetermineCollision(collider, this.gameObject);
+            shipScript.DetermineCollision(collider, this.gameObject, false);
+        }
+        else
+        {
+            AIScript.AIDetermineCollision(collider, this.gameObject, false);
         }
     }
 }

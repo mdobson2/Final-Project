@@ -19,6 +19,7 @@ public class ScriptShipFollow : MonoBehaviour
     public GameObject myShip;
     Text speedText;
     Text lapsText;
+    Text coinsText;
     #endregion
 
     #region Local Variables
@@ -36,7 +37,14 @@ public class ScriptShipFollow : MonoBehaviour
     public float swingSlower = 2f;
     public int numLaps = 3;
     public int lapsComplete = 0;
+    public bool canSwitch1 = true;
+    public bool canSwitch2 = true;
+    public bool canSwitch3 = true;
     bool gameOver = false;
+    bool shipBehind = false;
+    bool shipAhead = false;
+    bool shipCollision = false;
+    public int coinsCollected = 0;
     GameObject gameOverText;
 
 	public Animator animator;
@@ -65,6 +73,7 @@ public class ScriptShipFollow : MonoBehaviour
         speedText = GameObject.Find("SpeedText").GetComponent<Text>();
         gameOverText = GameObject.Find("GameOverText");
         lapsText = GameObject.Find("Laps Text").GetComponent<Text>();
+        coinsText = GameObject.Find("Coins Text").GetComponent<Text>();
 		animator = GetComponent<Animator> ();
 	}
 	
@@ -106,37 +115,61 @@ public class ScriptShipFollow : MonoBehaviour
             blackoutTracker = 0.0f;
         }
 
+        //canSwitch1 = true;
+        //canSwitch2 = true;
+        //canSwitch3 = true;
+
         //Update
         UpdateText();
         UpdatePosition();
         BlackoutUpdate();
+        UpdateCollisions();
 	}
     
+    public void AddCoin()
+    {
+        coinsCollected++;
+    }
 
     void GetInput()
     {
         //input for switching tracks
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if (activeTrack == 1)
+            switch(activeTrack)
             {
-                activeTrack = 2;
-            }
-            if (activeTrack == 3)
-            {
-                activeTrack = 1;
+                case 1:
+                    if(canSwitch2)
+                    {
+                        activeTrack = 2;
+                    }
+                    break;
+                case 3:
+                    if(canSwitch1)
+                    {
+                        activeTrack = 1;
+                    }
+                    break;
+
             }
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            if (activeTrack == 1)
+            switch(activeTrack)
             {
-                activeTrack = 3;
-            }
-            if (activeTrack == 2)
-            {
-                activeTrack = 1;
+                case 1:
+                    if(canSwitch3)
+                    {
+                        activeTrack = 3;
+                    }
+                    break;
+                case 2:
+                    if(canSwitch1)
+                    {
+                        activeTrack = 1;
+                    }
+                    break;
             }
         }
 
@@ -156,6 +189,7 @@ public class ScriptShipFollow : MonoBehaviour
             }
         }
     }
+
     void BlackoutUpdate()
     {
         if (speed > angleSpeed) {
@@ -188,6 +222,7 @@ public class ScriptShipFollow : MonoBehaviour
     {
         lapsText.text = "Lap " + (lapsComplete + 1) + "/" + numLaps;
         speedText.text = "Speed: " + speed.ToString();
+        coinsText.text = "Coins: " + coinsCollected;
     }
 
     public void UpdatePosition()
@@ -209,12 +244,49 @@ public class ScriptShipFollow : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other)
+    public void ShipCollision(bool status)
     {
-
+        shipCollision = status;
     }
 
-    public void DetermineCollision(Collider other, GameObject obj)
+    //public void DeactivateTrack(Collider other, GameObject obj)
+    //{
+    //    Debug.Log("detected collision" + other.gameObject.name);
+    //    if(other.gameObject.tag == "Ship")
+    //    {
+    //        switch (obj.transform.name)
+    //        {
+    //            case "Track1":
+    //                canSwitch1 = false;
+    //                break;
+    //            case "Track2":
+    //                canSwitch2 = false;
+    //                break;
+    //            case "Track3":
+    //                canSwitch3 = false;
+    //                break;
+    //        }
+    //    }
+    //}
+
+    public void ChangeTrackStatus(GameObject obj, bool status)
+    {
+        //Debug.Log("Switching " + obj.transform.name + " status to " + status);
+        switch(obj.transform.name)
+        {
+            case "Track1":
+                canSwitch1 = status;
+                break;
+            case "Track2":
+                canSwitch2 = status;
+                break;
+            case "Track3":
+                canSwitch3 = status;
+                break;
+        }
+    }
+
+    public void DetermineCollision(Collider other, GameObject obj, bool status)
     {
         //Debug.Log("received a collision");
         //if the collided object is a ship 
@@ -227,40 +299,56 @@ public class ScriptShipFollow : MonoBehaviour
                 case 1:
                     if(obj == track1Back)
                     {
-                        Debug.Log("Collision detected in back 1");
-                        blackoutTracker -= blackoutDecrease * 4;
+                        //Debug.Log("Collision detected in back 1");
+                        shipBehind = status;
                     }
                     if(obj == track1Front)
                     {
-                        Debug.Log("Collision detected in front 1");
-                        blackoutTracker += blackoutIncrease * 2;
+                        //Debug.Log("Collision detected in front 1");
+                        shipAhead = status;
                     }
                     break;
                 case 2:
                     if(obj == track2Back)
                     {
-                        Debug.Log("Collision detected in back 2");
-                        blackoutTracker -= blackoutDecrease * 4;
+                        //Debug.Log("Collision detected in back 2");
+                        shipBehind = status;
                     }
                     if(obj == track2Front)
                     {
-                        Debug.Log("Collision detected in front 2");
-                        blackoutTracker += blackoutIncrease * 2;
+                        //Debug.Log("Collision detected in front 2");
+                        shipAhead = status;
                     }
                     break;
                 case 3:
                     if(obj == track3Back)
                     {
-                        Debug.Log("Collision detected in back 3");
-                        blackoutTracker -= blackoutDecrease * 4;
+                        //Debug.Log("Collision detected in back 3");
+                        shipBehind = status;
                     }
                     if(obj == track3Front)
                     {
-                        Debug.Log("Collision detected in front 3");
-                        blackoutTracker += blackoutIncrease * 2;
+                        //Debug.Log("Collision detected in front 3");
+                        shipAhead = status;
                     }
                     break;
             }
+        }
+    }
+
+    void UpdateCollisions()
+    {
+        if(shipBehind)
+        {
+            blackoutTracker -= blackoutDecrease * 2;
+        }
+        if(shipAhead)
+        {
+            blackoutTracker += blackoutIncrease;
+        }
+        if(shipAhead && shipCollision)
+        {
+            speed -= 3;
         }
     }
 

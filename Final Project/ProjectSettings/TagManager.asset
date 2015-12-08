@@ -9,6 +9,7 @@ TagManager:
   - Track3
   - Ship
   - Enemy
+  - Coin
   layers:
   - Default
   - TransparentFX

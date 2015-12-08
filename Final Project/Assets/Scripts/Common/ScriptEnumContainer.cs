@@ -37,6 +37,5 @@ public enum UpgradeTypes
 public enum AITypes
 {
     BAD,
-    GOOD,
-    OKAY
+    GOOD
 }
