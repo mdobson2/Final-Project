@@ -20,7 +20,7 @@ public class EngineEditor :  Editor
 	public override void OnInspectorGUI()
 	{
 //		//required things for arrays
-		//serializedObject.Update ();
+		serializedObject.Update ();
 //
 //		//-------------------------------
 //		//Place your custom editor stuffs
@@ -113,7 +113,7 @@ public class EngineEditor :  Editor
 
 
         //required things for arrays
-        //serializedObject.ApplyModifiedProperties();
+        serializedObject.ApplyModifiedProperties();
 		#endregion
 	}
 

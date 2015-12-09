@@ -18,6 +18,9 @@ public class AIEditor : Editor {
 
     public override void OnInspectorGUI()
     {
+
+        serializedObject.Update();
+
         EditorGUILayout.PropertyField(serializedObject.FindProperty("AIDifficulty"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("activeTrack"));
         EditorGUILayout.Space();
@@ -29,5 +32,6 @@ public class AIEditor : Editor {
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(serializedObject.FindProperty("numLaps"));
 
+        serializedObject.ApplyModifiedProperties();
     }
 }
