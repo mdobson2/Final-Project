@@ -26,6 +26,9 @@ public class ScriptShipFollow : MonoBehaviour
     GameObject gameOverText;
     public Animator animator;
     GameObject UpgradeSelector;
+    ParticleSystem particle1;
+    ParticleSystem particle2;
+    ParticleSystem particle3;
     #endregion
 
     #region Local Variables
@@ -71,7 +74,10 @@ public class ScriptShipFollow : MonoBehaviour
         track3Front = track3.transform.FindChild("Track3 Front").gameObject;
         track3Back = track3.transform.FindChild("Track3 Back").gameObject;
         UpgradeSelector = GameObject.Find("UpgradeCanvas");
-        Debug.Log(UpgradeSelector.name);
+        particle1 = this.transform.FindChild("EngineParticles").transform.FindChild("ParticalSystem1").GetComponent<ParticleSystem>();
+        particle2 = this.transform.FindChild("EngineParticles").transform.FindChild("ParticalSystem2").GetComponent<ParticleSystem>();
+        particle3 = this.transform.FindChild("EngineParticles").transform.FindChild("ParticalSystem3").GetComponent<ParticleSystem>();
+        //Debug.Log(UpgradeSelector.name);
     }
 
     // Use this for initialization
@@ -127,6 +133,10 @@ public class ScriptShipFollow : MonoBehaviour
         //canSwitch1 = true;
         //canSwitch2 = true;
         //canSwitch3 = true;
+
+        particle1.startSpeed = speed/25;
+        particle2.startSpeed = speed/25;
+        particle3.startSpeed = speed/25;
 
         //Update
         UpdateText();

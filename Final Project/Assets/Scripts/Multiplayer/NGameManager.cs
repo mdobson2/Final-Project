@@ -16,7 +16,6 @@ public class NGameManager : NetworkBehaviour {
 
     void AwakeReal()
     {
-        GameObject.Find("NetworkManager").transform.GetComponent<NetworkManagerHUD>().gameObject.SetActive(false);
         Debug.Log(isLocalPlayer);
         if (isLocalPlayer)
         {
@@ -24,6 +23,9 @@ public class NGameManager : NetworkBehaviour {
         }
         else
         {
+            Destroy(this.transform.FindChild("Track1").GetComponent<Track1Player>());
+            Destroy(this.transform.FindChild("Track2").GetComponent<Track2Player>());
+            Destroy(this.transform.FindChild("Track3").GetComponent<Track3Player>());
             Destroy(this.transform.FindChild("Ships").transform.FindChild("siar1x").GetComponent<ScriptShipFollow>());
             Destroy(this.transform.FindChild("Ships").transform.FindChild("siar1x").transform.FindChild("Main Camera"));
             Destroy(this.transform.FindChild("Track1"));
