@@ -78,7 +78,18 @@ public class UpgradeWindow : EditorWindow {
         {
             if(upgradeCost > 0 && upgradeValue > 0)
             {
-                outputMessage = "Upgrade Created";
+                try
+                {
+                    bool temp = false;
+                    contentString = upgradeType.ToString() + "," + upgradeValue.ToString() + "," + upgradeCost.ToString() + "," + temp.ToString() +  "\n";
+                    File.AppendAllText(datapath, contentString);
+                    outputMessage = "Upgrade Created";
+                    AssetDatabase.Refresh();
+                }
+                catch(UnityException e)
+                {
+                    Debug.LogError(e);
+                }
             }
             else if(upgradeValue <= 0)
             {

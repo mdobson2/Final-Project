@@ -25,6 +25,7 @@ public class ScriptShipFollow : MonoBehaviour
     GameObject finishedText;
     GameObject gameOverText;
     public Animator animator;
+    GameObject UpgradeSelector;
     #endregion
 
     #region Local Variables
@@ -68,6 +69,7 @@ public class ScriptShipFollow : MonoBehaviour
         track2Back = track2.transform.FindChild("Track2 Back").gameObject;
         track3Front = track3.transform.FindChild("Track3 Front").gameObject;
         track3Back = track3.transform.FindChild("Track3 Back").gameObject;
+        UpgradeSelector = GameObject.Find("UpgradeCanvas");
     }
 
     // Use this for initialization
@@ -429,5 +431,13 @@ public class ScriptShipFollow : MonoBehaviour
                 Debug.LogError(e);
             }
         }
+    }
+
+    public void StartEngine()
+    {
+        UpgradeSelector.SetActive(false);
+        track1.GetComponent<Track1Player>().StartEngines();
+        track2.GetComponent<Track2Player>().StartEngines();
+        track3.GetComponent<Track3Player>().StartEngines();
     }
 }

@@ -12,4 +12,9 @@ public class ScriptSceneTransitions : MonoBehaviour {
     {
         Application.LoadLevel("GameScene");
     }
+
+    public void GoToMain()
+    {
+        Application.LoadLevel("MainMenu");
+    }
 }

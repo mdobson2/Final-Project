@@ -81,9 +81,9 @@ public class Track1Player : MonoBehaviour
     void Start()
     {
         //PrintInformation();
-        StartCoroutine(movementEngine());
-        StartCoroutine(EffectsEngine());
-        StartCoroutine(FacingEngine());
+        //StartCoroutine(movementEngine());
+        //StartCoroutine(EffectsEngine());
+        //StartCoroutine(FacingEngine());
 
         startPos = this.transform.position;
     }
@@ -162,6 +162,13 @@ public class Track1Player : MonoBehaviour
         {
             AIScript.AIChangeTrackStatus(this.gameObject, true);
         }
+    }
+
+    public void StartEngines()
+    {
+        StartCoroutine(movementEngine());
+        StartCoroutine(EffectsEngine());
+        StartCoroutine(FacingEngine());
     }
 
     #region Movement Engine

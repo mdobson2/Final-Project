@@ -44,6 +44,7 @@ public class EnemyAIController : MonoBehaviour
     public AITypes AIDifficulty;
     bool wantToChangetrack = false;
     bool finishedGame = false;
+    bool gameStarted = false;
     #endregion
 
     void Awake()
@@ -63,49 +64,52 @@ public class EnemyAIController : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        //decide my speed for this frame
-        SetWantedSpeed();
+        if(gameStarted)
+        {
+            //decide my speed for this frame
+            SetWantedSpeed();
 
-        //get AI input
-	    if(!gameOver)
-        {
-            GetInput();
-        }
+            //get AI input
+	        if(!gameOver)
+            {
+                GetInput();
+            }
 
-        //add small resistance to movement
-        if(speed > resistance)
-        {
-            speed -= resistance;
-        }
+            //add small resistance to movement
+            if(speed > resistance)
+            {
+                speed -= resistance;
+            }
 
-        if(speed <= resistance)
-        {
-            speed = 0.0f;
-        }
+            if(speed <= resistance)
+            {
+                speed = 0.0f;
+            }
 
-        //fail safes for variables
-        if(speed < 0)
-        {
-            speed = 0;
-        }
-        if(speed > MAX_SPEED)
-        {
-            speed = MAX_SPEED;
-        }
-        if(blackoutTracker < 0)
-        {
-            blackoutTracker = 0;
-        }
+            //fail safes for variables
+            if(speed < 0)
+            {
+                speed = 0;
+            }
+            if(speed > MAX_SPEED)
+            {
+                speed = MAX_SPEED;
+            }
+            if(blackoutTracker < 0)
+            {
+                blackoutTracker = 0;
+            }
 
-        if(finishedGame)
-        {
-            wantedSpeed = MAX_SPEED / 3;
-        }
+            if(finishedGame)
+            {
+                wantedSpeed = MAX_SPEED / 3;
+            }
 
-        UpdateCollisions();
-        UpdateTrack();
-        UpdatePosition();
-        BlackoutUpdate();
+            UpdateCollisions();
+            UpdateTrack();
+            UpdatePosition();
+            BlackoutUpdate();
+        }
 	}
 
     void SetWantedSpeed()
@@ -361,5 +365,14 @@ public class EnemyAIController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void StartEngine()
+    {
+        
+        track1.GetComponent<Track1Player>().StartEngines();
+        track2.GetComponent<Track2Player>().StartEngines();
+        track3.GetComponent<Track3Player>().StartEngines();
+        gameStarted = true;
     }
 }
