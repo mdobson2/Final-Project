@@ -65,6 +65,7 @@ public class NGameManager : NetworkBehaviour {
                 foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
                     obj.transform.FindChild("siar1x").GetComponent<EnemyAIController>().StartEngine();
+                    isReady = false;
                 }
             }
         }
