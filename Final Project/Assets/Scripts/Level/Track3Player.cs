@@ -61,6 +61,10 @@ public class Track3Player : MonoBehaviour
 
     void Awake()
     {
+    }
+
+    void Start()
+    {
         //shipScript = GameObject.FindGameObjectWithTag("Ship").GetComponent<ScriptShipFollow>();
         myParent = this.transform.parent.gameObject;
         if(myParent.tag == "Player")
@@ -76,10 +80,6 @@ public class Track3Player : MonoBehaviour
         particalSystem1 = GameObject.Find("ParticalSystem1");
         particalSystem2 = GameObject.Find("ParticalSystem2");
         movements = GameObject.Find("Track3World").GetComponent<ScriptEngine>().movements;
-    }
-
-    void Start()
-    {
         //PrintInformation();
         //StartCoroutine(movementEngine());
         //StartCoroutine(EffectsEngine());

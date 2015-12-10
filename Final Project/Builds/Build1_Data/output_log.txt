@@ -2,107 +2,45 @@ Initialize engine version: 5.1.2f1 (afd2369b692a)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA GeForce GTX 750 Ti (ID=0x1380)
+    Renderer: NVIDIA GeForce GTX 970 (ID=0x13c2)
     Vendor:   NVIDIA
-    VRAM:     1993 MB
+    VRAM:     3072 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
-Loading C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.068 seconds
+Platform assembly: C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.067 seconds
 desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-Platform assembly: C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\Managed\System.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 1e64 -> priority: 1 
-  Thread -> id: 2488 -> priority: 1 
-HLAPI CRC channel count error local: 2 remote: 3
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-CRC Local Dump NetworkedPosition : 0
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-CRC Local Dump NGameManager : 0
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-CRC Remote Dump NetworkedPosition : 0
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-CRC Remote Dump NGameManager : 0
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-CRC Remote Dump StartButton : 0
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
+  Thread -> id: 2350 -> priority: 1 
+  Thread -> id: 5520 -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.727333 ms
+UnloadTime: 2.586799 ms
 
-Unloading 29 unused Assets to reduce memory usage. Loaded Objects now: 2903.
-Total: 0.644131 ms (FindLiveObjects: 0.085944 ms CreateObjectMapping: 0.031060 ms MarkObjects: 0.501192 ms  DeleteObjects: 0.025331 ms)
-
-UpgradeCanvas
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-UpgradeCanvas
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-UpgradeCanvas
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-UpgradeCanvas
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at ScriptShipFollow.Start () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
+Unloading 29 unused Assets to reduce memory usage. Loaded Objects now: 2930.
+Total: 1.074030 ms (FindLiveObjects: 0.254873 ms CreateObjectMapping: 0.040498 ms MarkObjects: 0.737080 ms  DeleteObjects: 0.040768 ms)
 
 False
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
 
-NullReferenceException: Object reference not set to an instance of an object
-  at NGameManager.AwakeReal () [0x00000] in <filename unknown>:0 
+True
  
-(Filename:  Line: -1)
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
 
-Can't destroy Transform component of 'Main Camera'. If you want to destroy the game object, please call 'Destroy' on the game object instead. Destroying the transform component is not allowed.
- 
-(Filename:  Line: 1379)
-
-Can't destroy Transform component of 'Track1'. If you want to destroy the game object, please call 'Destroy' on the game object instead. Destroying the transform component is not allowed.
- 
-(Filename:  Line: 1379)
-
-Can't destroy Transform component of 'Track2'. If you want to destroy the game object, please call 'Destroy' on the game object instead. Destroying the transform component is not allowed.
- 
-(Filename:  Line: 1379)
-
-Can't destroy Transform component of 'Track3'. If you want to destroy the game object, please call 'Destroy' on the game object instead. Destroying the transform component is not allowed.
- 
-(Filename:  Line: 1379)
-
-IsolatedStorageException: Could not find a part of the path "C:\Users\svc-student\Desktop\Final-Project\Final Project\Builds\Build1_Data\PlayerInfo\PlayerUpgrades.txt".
+IsolatedStorageException: Could not find a part of the path "C:\Users\Mike\Desktop\Final-Project\Final Project\Builds\Build1_Data\PlayerInfo\PlayerUpgrades.txt".
   at System.IO.FileStream..ctor (System.String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, Boolean anonymous, FileOptions options) [0x00000] in <filename unknown>:0 
   at System.IO.FileStream..ctor (System.String path, FileMode mode, FileAccess access, FileShare share) [0x00000] in <filename unknown>:0 
   at System.IO.File.OpenRead (System.String path) [0x00000] in <filename unknown>:0 
@@ -115,8 +53,47 @@ IsolatedStorageException: Could not find a part of the path "C:\Users\svc-studen
  
 (Filename:  Line: -1)
 
-NullReferenceException: Object reference not set to an instance of an object
-  at StartButton.ActualStart () [0x00000] in <filename unknown>:0 
+Called Add Listener
  
-(Filename:  Line: -1)
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+UpgradeCanvas
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Called set ready
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+UpgradeCanvas
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Start Engines
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Look rotation viewing vector is zero
+ 
+(Filename:  Line: 71)
+
+Look rotation viewing vector is zero
+ 
+(Filename:  Line: 71)
+
+Look rotation viewing vector is zero
+ 
+(Filename:  Line: 71)
+
+Look rotation viewing vector is zero
+ 
+(Filename:  Line: 71)
+
+Look rotation viewing vector is zero
+ 
+(Filename:  Line: 71)
+
+Look rotation viewing vector is zero
+ 
+(Filename:  Line: 71)
 

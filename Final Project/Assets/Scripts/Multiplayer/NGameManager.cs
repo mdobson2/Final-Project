@@ -9,6 +9,8 @@ public class NGameManager : NetworkBehaviour {
     [SyncVar]
     public bool finishedGame = false;
 
+    public bool allReady = true;
+
     void Awake()
     {
         Invoke("AwakeReal", .5f);
@@ -27,10 +29,10 @@ public class NGameManager : NetworkBehaviour {
             Destroy(this.transform.FindChild("Track2").GetComponent<Track2Player>());
             Destroy(this.transform.FindChild("Track3").GetComponent<Track3Player>());
             Destroy(this.transform.FindChild("Ships").transform.FindChild("siar1x").GetComponent<ScriptShipFollow>());
-            Destroy(this.transform.FindChild("Ships").transform.FindChild("siar1x").transform.FindChild("Main Camera"));
-            Destroy(this.transform.FindChild("Track1"));
-            Destroy(this.transform.FindChild("Track2"));
-            Destroy(this.transform.FindChild("Track3"));
+            Destroy(this.transform.FindChild("Ships").transform.FindChild("siar1x").transform.FindChild("Main Camera").gameObject);
+            Destroy(this.transform.FindChild("Track1").gameObject);
+            Destroy(this.transform.FindChild("Track2").gameObject);
+            Destroy(this.transform.FindChild("Track3").gameObject);
         }
         int numPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
         if(numPlayers == 2)
@@ -40,6 +42,32 @@ public class NGameManager : NetworkBehaviour {
         if(numPlayers == 3)
         {
             Destroy(GameObject.Find("AIPlayer1"));
+        }
+    }
+
+    void Update()
+    {
+        if (isReady)
+        {
+            allReady = true;
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (!obj.GetComponent<NGameManager>().isReady)
+                {
+                    allReady = false;
+                    break;
+                }
+            }
+            if (allReady)
+            {
+                GameObject.Find("IsLocalPlayer").transform.FindChild("Ships").transform.FindChild("siar1x").GetComponent<ScriptShipFollow>().StartEngine();
+
+                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+                {
+                    obj.transform.FindChild("siar1x").GetComponent<EnemyAIController>().StartEngine();
+                    isReady = false;
+                }
+            }
         }
     }
 
@@ -54,8 +82,8 @@ public class NGameManager : NetworkBehaviour {
         finishedGame = status;
     }
 
-    void Update()
-    {
-        //Debug.Log("Am I local, or loca? " + isLocalPlayer);
-    }
+    //void Update()
+    //{
+    //    //Debug.Log("Am I local, or loca? " + isLocalPlayer);
+    //}
 }

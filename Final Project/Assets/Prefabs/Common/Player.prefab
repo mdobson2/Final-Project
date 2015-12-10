@@ -1390,6 +1390,7 @@ MonoBehaviour:
   coinsCollected: 0
   testMode: 0
   isReady: 0
+  startUpdates: 0
 --- !u!114 &11428414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1421,7 +1422,7 @@ MonoBehaviour:
     i14: 91
     i15: 183
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11441558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1463,6 +1464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isReady: 0
   finishedGame: 0
+  allReady: 1
 --- !u!114 &11452672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1630,6 +1632,7 @@ MonoBehaviour:
   coinsCollected: 0
   testMode: 0
   isReady: 0
+  startUpdates: 0
 --- !u!114 &11481196
 MonoBehaviour:
   m_ObjectHideFlags: 1

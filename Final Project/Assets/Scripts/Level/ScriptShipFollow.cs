@@ -22,7 +22,7 @@ public class ScriptShipFollow : MonoBehaviour
     Text speedText;
     Text lapsText;
     Text coinsText;
-    GameObject finishedText;
+    Text finishedText;
     GameObject gameOverText;
     public Animator animator;
     GameObject UpgradeSelector;
@@ -57,10 +57,20 @@ public class ScriptShipFollow : MonoBehaviour
     public int coinsCollected = 0;
     public bool testMode = false;
     public bool isReady = false;
+    public bool startUpdates = false;
     #endregion
 
     //use this before initialization
     void Awake()
+    {
+    }
+
+    // Use this for initialization
+	void Start () {
+        Invoke("ActualStart", 1f);
+	}
+
+    void ActualStart()
     {
         myParent = this.transform.parent.transform.parent.gameObject;
         myShip = this.transform.FindChild("ShipCollider").gameObject;
@@ -78,71 +88,80 @@ public class ScriptShipFollow : MonoBehaviour
         particle2 = this.transform.FindChild("EngineParticles").transform.FindChild("ParticalSystem2").GetComponent<ParticleSystem>();
         particle3 = this.transform.FindChild("EngineParticles").transform.FindChild("ParticalSystem3").GetComponent<ParticleSystem>();
         //Debug.Log(UpgradeSelector.name);
-    }
-
-    // Use this for initialization
-	void Start () {
         Debug.Log(UpgradeSelector.name);
+		animator = GetComponent<Animator> ();
         speedText = GameObject.Find("SpeedText").GetComponent<Text>();
-        gameOverText = GameObject.Find("GameOverText");
         lapsText = GameObject.Find("Laps Text").GetComponent<Text>();
         coinsText = GameObject.Find("Coins Text").GetComponent<Text>();
-        finishedText = GameObject.Find("Finish Text");
-		animator = GetComponent<Animator> ();
-        finishedText.SetActive(finishedGame);
-	}
+        if(myParent.name == "IsLocalPlayer")
+        {
+            gameOverText = GameObject.Find("GameOverText");
+            finishedText = GameObject.Find("Finish Text").GetComponent<Text>();
+            finishedText.gameObject.SetActive(false);
+            gameOverText.SetActive(false);
+        }
+        startUpdates = true;
+        //Debug.Log(finishedText.name);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        // get my input
-        if(!gameOver)
+
+        if (startUpdates)
         {
-            GetInput();
+            // get my input
+            if (!gameOver)
+            {
+                GetInput();
+            }
+            //gameOverText.gameObject.SetActive(gameOver);
+
+            //small resistance
+            //if(!testMode)
+            //{
+            //    if (speed > resistance)
+            //    {
+            //        speed -= resistance;
+            //    }
+
+            //    if (speed <= resistance)
+            //    {
+            //        speed = 0.0f;
+            //    }
+            //}
+
+            //fail safe
+            if (speed < 0)
+            {
+                speed = 0.0f;
+            }
+            if (speed > MAX_SPEED)
+            {
+                speed = MAX_SPEED;
+            }
+
+            if (blackoutTracker < 0)
+            {
+                blackoutTracker = 0.0f;
+            }
+
+            //canSwitch1 = true;
+            //canSwitch2 = true;
+            //canSwitch3 = true;
+
+            if (particle1 != null)
+            {
+                particle1.startSpeed = speed / 25;
+                particle2.startSpeed = speed / 25;
+                particle3.startSpeed = speed / 25;
+            }
+
+            //Update
+            UpdateText();
+            UpdatePosition();
+            BlackoutUpdate();
+            UpdateCollisions();
         }
-        gameOverText.SetActive(gameOver);
-
-        //small resistance
-        //if(!testMode)
-        //{
-        //    if (speed > resistance)
-        //    {
-        //        speed -= resistance;
-        //    }
-
-        //    if (speed <= resistance)
-        //    {
-        //        speed = 0.0f;
-        //    }
-        //}
-
-        //fail safe
-        if(speed < 0)
-        {
-            speed = 0.0f;
-        }
-        if(speed > MAX_SPEED)
-        {
-            speed = MAX_SPEED;
-        }
-
-        if(blackoutTracker < 0)
-        {
-            blackoutTracker = 0.0f;
-        }
-
-        //canSwitch1 = true;
-        //canSwitch2 = true;
-        //canSwitch3 = true;
-
-        particle1.startSpeed = speed/25;
-        particle2.startSpeed = speed/25;
-        particle3.startSpeed = speed/25;
-
-        //Update
-        UpdateText();
-        UpdatePosition();
-        BlackoutUpdate();
-        UpdateCollisions();
 	}
     
     public void AddCoin()
@@ -234,6 +253,7 @@ public class ScriptShipFollow : MonoBehaviour
         {
             //Debug.Log("Blacked Out!");
             gameOver = true;
+            gameOverText.gameObject.SetActive(true);
         }
     }
 
@@ -411,7 +431,7 @@ public class ScriptShipFollow : MonoBehaviour
             int myPlace = 0;
             finishedGame = true;
             myParent.GetComponent<NGameManager>().SetFinishedGame();
-            finishedText.SetActive(finishedGame);
+            finishedText.gameObject.SetActive(finishedGame);
             foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
             {
                 if(obj.transform.GetComponent<NGameManager>().finishedGame)
