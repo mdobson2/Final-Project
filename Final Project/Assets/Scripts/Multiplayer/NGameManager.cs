@@ -11,9 +11,17 @@ public class NGameManager : NetworkBehaviour {
 
     public bool allReady = true;
 
+    public float trailSpeed = 0.0f;
+    [SyncVar]
+    float syncedTrailSpeed = 0.0f;
+
+    ParticleSystem particle1;
+    ParticleSystem particle2;
+    ParticleSystem particle3;
+
     void Awake()
     {
-        Invoke("AwakeReal", .5f);
+        Invoke("AwakeReal", .1f);
     }
 
     void AwakeReal()
@@ -33,6 +41,7 @@ public class NGameManager : NetworkBehaviour {
             Destroy(this.transform.FindChild("Track1").gameObject);
             Destroy(this.transform.FindChild("Track2").gameObject);
             Destroy(this.transform.FindChild("Track3").gameObject);
+            //particle1 = this.transform.FindChild("Ships").transform.FindChild("siar1x").transform.FindChild("EngineParticles").transform.FindChild("ParticalSystem1").GetComponent<ParticleSystem>();
         }
         int numPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
         if(numPlayers == 2)
@@ -69,6 +78,35 @@ public class NGameManager : NetworkBehaviour {
                 }
             }
         }
+
+        //if(!isLocalPlayer)
+        //{
+
+        //}
+    }
+
+    public void SetTrailSpeed(float number)
+    {
+        trailSpeed = number;
+        CmdSetTrailSpeed(trailSpeed);
+    }
+
+    [Command]
+    void CmdSetTrailSpeed(float number)
+    {
+        syncedTrailSpeed = number;
+    }
+
+    public void SetReadyTrue()
+    {
+        isReady = true;
+        CmdSetReadyTrue(true);
+    }
+
+    [Command]
+    void CmdSetReadyTrue(bool status)
+    {
+        isReady = status;
     }
 
     public void SetFinishedGame()

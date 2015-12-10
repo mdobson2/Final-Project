@@ -96,6 +96,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 442064}
+  - 114: {fileID: 11435452}
   m_Layer: 0
   m_Name: Ships
   m_TagString: Untagged
@@ -1423,6 +1424,38 @@ MonoBehaviour:
     i15: 183
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &11435452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 72
+    i1: 170
+    i2: 131
+    i3: 86
+    i4: 153
+    i5: 59
+    i6: 198
+    i7: 36
+    i8: 235
+    i9: 250
+    i10: 97
+    i11: 80
+    i12: 103
+    i13: 194
+    i14: 91
+    i15: 183
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11441558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1465,6 +1498,7 @@ MonoBehaviour:
   isReady: 0
   finishedGame: 0
   allReady: 1
+  trailSpeed: 0
 --- !u!114 &11452672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1543,6 +1577,8 @@ MonoBehaviour:
   myTransform: {fileID: 0}
   rotationLerpRate: 15
   rotationThreshold: 5
+  positionLerpRate: 15
+  positionThreshold: .5
 --- !u!114 &11455386
 MonoBehaviour:
   m_ObjectHideFlags: 1
