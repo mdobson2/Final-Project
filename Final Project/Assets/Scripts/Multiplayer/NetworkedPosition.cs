@@ -59,7 +59,7 @@ public class NetworkedPosition : NetworkBehaviour {
             {
                 //Debug.Log("Updating location from " + this.transform.parent.transform.parent.gameObject.name);
                 LerpRotation();
-                //LerpPosition();
+                LerpPosition();
             }
         }
     }

@@ -42,6 +42,7 @@ public class Track1Player : MonoBehaviour
     //public int trackNumber = -1;
     const float CLOSE_ENOUGH = 1;
     public int infiniteLoopCatcher = 10000;
+    public bool letsDoThis = false;
 
     #region TigerShark Variables
     public GameObject tigerShark;
@@ -64,6 +65,11 @@ public class Track1Player : MonoBehaviour
     }
 
     void Start()
+    {
+        Invoke("ActualStart", 1f);
+    }
+
+    void ActualStart()
     {
         //shipScript = GameObject.FindGameObjectWithTag("Ship").GetComponent<ScriptShipFollow>();
         myParent = this.transform.parent.gameObject;
@@ -96,6 +102,7 @@ public class Track1Player : MonoBehaviour
         //StartCoroutine(FacingEngine());
 
         startPos = this.transform.position;
+        letsDoThis = true;
     }
 
     void PrintInformation()
@@ -149,16 +156,20 @@ public class Track1Player : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Ship")
+        if(letsDoThis)
         {
-            if (myParent.tag == "Player")
+            if (other.gameObject.tag == "Ship")
             {
-                shipScript.ChangeTrackStatus(this.gameObject, false);
+                if (myParent.tag == "Player")
+                {
+                    shipScript.ChangeTrackStatus(this.gameObject, false);
+                }
+                else
+                {
+                    AIScript.AIChangeTrackStatus(this.gameObject, false);
+                }
             }
-            else
-            {
-                AIScript.AIChangeTrackStatus(this.gameObject, false);
-            }
+
         }
     }
 

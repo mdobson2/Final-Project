@@ -30,9 +30,41 @@ public class NGameManager : NetworkBehaviour {
         if (isLocalPlayer)
         {
             this.gameObject.name = "IsLocalPlayer";
+            //this.transform.FindChild("Ships").GetComponent<NetworkIdentity>().s
+            GameObject tempShips = (GameObject)Instantiate(Resources.Load("Ships"));
+            tempShips.transform.SetParent(this.gameObject.transform);
+            tempShips.transform.localPosition = Vector3.zero;
+            tempShips.gameObject.name = "Ships";
+            ClientScene.RegisterPrefab(tempShips);
+            NetworkServer.SpawnWithClientAuthority(tempShips, this.gameObject);
+
+            GameObject tempSiar1x = (GameObject)Instantiate(Resources.Load("siar1x"));
+            tempSiar1x.transform.SetParent(tempShips.transform);
+            tempSiar1x.transform.localPosition = Vector3.zero;
+            tempSiar1x.gameObject.name = "siar1x";
+            ClientScene.RegisterPrefab(tempSiar1x);
+            NetworkServer.SpawnWithClientAuthority(tempSiar1x, this.gameObject);
+
+            //GimmeObjects(this.gameObject);
+            
         }
         else
         {
+            GameObject tempShips = (GameObject)Instantiate(Resources.Load("Ships"));
+            tempShips.transform.SetParent(this.gameObject.transform);
+            tempShips.transform.localPosition = Vector3.zero;
+            tempShips.gameObject.name = "Ships";
+            ClientScene.RegisterPrefab(tempShips);
+            //NetworkServer.SpawnWithClientAuthority(tempShips, this.gameObject);
+
+            GameObject tempSiar1x = (GameObject)Instantiate(Resources.Load("siar1x"));
+            tempSiar1x.transform.SetParent(tempShips.transform);
+            tempSiar1x.transform.localPosition = Vector3.zero;
+            tempSiar1x.gameObject.name = "siar1x";
+            ClientScene.RegisterPrefab(tempSiar1x);
+            //NetworkServer.SpawnWithClientAuthority(tempSiar1x, this.gameObject);
+
+            //GimmeObjects(this.gameObject);
             Destroy(this.transform.FindChild("Track1").GetComponent<Track1Player>());
             Destroy(this.transform.FindChild("Track2").GetComponent<Track2Player>());
             Destroy(this.transform.FindChild("Track3").GetComponent<Track3Player>());
@@ -53,6 +85,12 @@ public class NGameManager : NetworkBehaviour {
             Destroy(GameObject.Find("AIPlayer1"));
         }
     }
+
+    //[Server]
+    //void GimmeObjects(GameObject objToDo)
+    //{
+    //    objToDo.transform.FindChild("Ships").GetComponent<NetworkIdentity>().AssignClientAuthority(NetworkManager.singleton.client.connection);
+    //}
 
     void Update()
     {
