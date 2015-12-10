@@ -7,8 +7,15 @@ public class ScriptCollisionChecker : MonoBehaviour {
     public ScriptShipFollow shipScript;
     public EnemyAIController AIScript;
 
+    public bool letsDoThis = false;
+
+    void Start()
+    {
+        Invoke("ActualStart", 1.5f);
+    }
+
 	// Use this for initialization
-	void Start () {
+	void ActualStart () {
         myParent = transform.parent.transform.parent.gameObject;
         if(myParent.tag == "Player")
         {
@@ -18,17 +25,22 @@ public class ScriptCollisionChecker : MonoBehaviour {
         {
             AIScript = myParent.transform.FindChild("siar1x").GetComponent<EnemyAIController>();
         }
+        letsDoThis = true;
 	}
 
     void OnTriggerEnter(Collider collider)
     {
-        if (myParent.tag == "Player")
+        if(letsDoThis)
         {
-            shipScript.DetermineCollision(collider, this.gameObject, true);
-        }
-        else
-        {
-            AIScript.AIDetermineCollision(collider, this.gameObject, true);
+            if (myParent.tag == "Player")
+            {
+                shipScript.DetermineCollision(collider, this.gameObject, true);
+            }
+            else
+            {
+                AIScript.AIDetermineCollision(collider, this.gameObject, true);
+            }
+
         }
     }
 

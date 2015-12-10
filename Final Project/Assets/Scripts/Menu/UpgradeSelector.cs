@@ -17,7 +17,7 @@ public class UpgradeSelector : MonoBehaviour {
 
     void Start()
     {
-        Invoke("StartForReal", 1f);
+        Invoke("StartForReal", .9f);
     }
 
 

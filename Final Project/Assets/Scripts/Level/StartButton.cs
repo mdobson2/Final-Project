@@ -36,7 +36,7 @@ public class StartButton : MonoBehaviour {
     {
         Debug.Log("Called set ready");
         //shipScript.isReady = true;
-        GameObject.Find("IsLocalPlayer").GetComponent<NGameManager>().isReady = true;
+        GameObject.Find("IsLocalPlayer").GetComponent<NGameManager>().SetReadyTrue();
         //CmdCheckReady();
     }
 

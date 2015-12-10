@@ -23,6 +23,7 @@ public class ScriptShipFollow : MonoBehaviour
     Text lapsText;
     Text coinsText;
     Text finishedText;
+    Text blackoutText;
     GameObject gameOverText;
     public Animator animator;
     GameObject UpgradeSelector;
@@ -67,7 +68,7 @@ public class ScriptShipFollow : MonoBehaviour
 
     // Use this for initialization
 	void Start () {
-        Invoke("ActualStart", 1f);
+        Invoke("ActualStart", .2f);
 	}
 
     void ActualStart()
@@ -93,6 +94,7 @@ public class ScriptShipFollow : MonoBehaviour
         speedText = GameObject.Find("SpeedText").GetComponent<Text>();
         lapsText = GameObject.Find("Laps Text").GetComponent<Text>();
         coinsText = GameObject.Find("Coins Text").GetComponent<Text>();
+        blackoutText = GameObject.Find("BlackoutText").GetComponent<Text>();
         if(myParent.name == "IsLocalPlayer")
         {
             gameOverText = GameObject.Find("GameOverText");
@@ -262,6 +264,13 @@ public class ScriptShipFollow : MonoBehaviour
         lapsText.text = "Lap " + (lapsComplete + 1) + "/" + numLaps;
         speedText.text = "Speed: " + speed.ToString();
         coinsText.text = "Coins: " + coinsCollected;
+        if (blackoutTracker <= MAX_BLACKOUT / 3)
+            blackoutText.color = Color.green;
+        else if (blackoutTracker <= MAX_BLACKOUT / 3 * 2)
+            blackoutText.color = Color.yellow;
+        else if (blackoutTracker >= MAX_BLACKOUT / 3 * 2)
+            blackoutText.color = Color.red;
+        blackoutText.text = "BLACKOUT:" + Mathf.RoundToInt(blackoutTracker) + "/" + Mathf.RoundToInt(MAX_BLACKOUT); 
     }
 
     public void UpdatePosition()
@@ -485,8 +494,8 @@ public class ScriptShipFollow : MonoBehaviour
 
     public void StartEngine()
     {
-        Debug.Log(UpgradeSelector.name);
-        Debug.Log("Start Engines");
+        //Debug.Log(UpgradeSelector.name);
+        //Debug.Log("Start Engines");
         UpgradeSelector.SetActive(false);
         track1.GetComponent<Track1Player>().StartEngines();
         track2.GetComponent<Track2Player>().StartEngines();
