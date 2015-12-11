@@ -20,6 +20,10 @@ public class UpgradePurchases : MonoBehaviour {
     string playerUpgradesDataPath;
     int playersCoins;
 
+    TextAsset upgradesInFile;
+    TextAsset coinsInFile;
+    TextAsset playerUpgradesInFile;
+
     public string[] lines;
 
 	// Use this for initialization
@@ -28,6 +32,10 @@ public class UpgradePurchases : MonoBehaviour {
         playerDataPath = (Application.dataPath.ToString() + "/PlayerInfo");
         playerCoinsDataPath = "/PlayerData.txt";
         playerUpgradesDataPath = "/PlayerUpgrades.txt";
+
+        upgradesInFile = Resources.Load("UpgradesFile") as TextAsset;
+        coinsInFile = Resources.Load("PlayerData") as TextAsset;
+        playerUpgradesInFile = Resources.Load("PlayerUpgrades") as TextAsset;
 
         playersCoins = int.Parse(File.ReadAllText(playerDataPath + playerCoinsDataPath));
 
@@ -42,7 +50,8 @@ public class UpgradePurchases : MonoBehaviour {
             Destroy(upgrade);
         }
 
-        lines = File.ReadAllLines(upgradesDataPath);
+        lines = upgradesInFile.text.Split("\n"[0]);
+        //lines = File.ReadAllLines(upgradesDataPath);
         
         for(int i = 0; i < lines.Length; i++)
         {

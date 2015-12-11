@@ -1,0 +1,22 @@
+To create a new upgrade for this game follow these steps:
+1. Open the UpgradesFile.txt located in (Applicationpath)/assets/upgrades
+2. On a new line type out the type of upgrade in capital letters your choices are:
+	a. ACCELERATION
+	b. BRAKES
+	c. MAXSPEED
+	d. MAXBLACKOUT
+3. Follow the upgrade type with a comma (,) no spaces
+4. Following the comma (,) type the value of the upgrade, 
+	this can be any number above 0, followed by a comma (,)
+	still with no spaces
+5. Following the value type the cost of the upgrade,
+	this can be any number above 0, followed by a comma (,)
+	still with no spaces
+6. Finally type False to notate that the upgrade has not been purchased
+	or True to notate that the upgrade has been purchased
+
+Some examples of upgrades
+ACCELERATION,2,50,False
+BRAKES,1,25,True
+MAXSPEED,100,350,False
+MAXBLACKOUT,100,500,True

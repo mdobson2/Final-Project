@@ -103,6 +103,7 @@ public class ScriptShipFollow : MonoBehaviour
             gameOverText.SetActive(false);
         }
         startUpdates = true;
+        //GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>
         //Debug.Log(finishedText.name);
     }
 	

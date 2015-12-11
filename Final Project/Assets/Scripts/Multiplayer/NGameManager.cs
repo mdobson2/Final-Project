@@ -45,6 +45,8 @@ public class NGameManager : NetworkBehaviour {
             ClientScene.RegisterPrefab(tempSiar1x);
             NetworkServer.SpawnWithClientAuthority(tempSiar1x, this.gameObject);
 
+            GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().showGUI = false;
+
             //GimmeObjects(this.gameObject);
             
         }

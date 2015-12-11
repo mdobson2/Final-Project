@@ -17,6 +17,9 @@ public class EnemyAIController : MonoBehaviour
     public GameObject track3Back;
     public GameObject myParent;
     public GameObject myShip;
+    public ParticleSystem particle1;
+    public ParticleSystem particle2;
+    public ParticleSystem particle3;
     #endregion
 
     #region movement variables
@@ -60,6 +63,9 @@ public class EnemyAIController : MonoBehaviour
         track2Back = track2.transform.FindChild("Track2 Back").gameObject;
         track3Front = track3.transform.FindChild("Track3 Front").gameObject;
         track3Back = track3.transform.FindChild("Track3 Back").gameObject;
+        particle1 = this.transform.FindChild("EngineParticles").FindChild("ParticalSystem1").GetComponent<ParticleSystem>();
+        particle2 = this.transform.FindChild("EngineParticles").FindChild("ParticalSystem2").GetComponent<ParticleSystem>();
+        particle3 = this.transform.FindChild("EngineParticles").FindChild("ParticalSystem3").GetComponent<ParticleSystem>();
     }
 	
 	// Update is called once per frame
@@ -103,6 +109,13 @@ public class EnemyAIController : MonoBehaviour
             if(finishedGame)
             {
                 wantedSpeed = MAX_SPEED / 3;
+            }
+
+            if (particle1 != null)
+            {
+                particle1.startSpeed = speed / 15;
+                particle2.startSpeed = speed / 25;
+                particle3.startSpeed = speed / 25;
             }
 
             UpdateCollisions();
